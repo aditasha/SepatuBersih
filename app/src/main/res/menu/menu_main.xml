@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.aditasha.sepatubersih.MainActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_baseline_qr_code_scanner_24"
+        android:title="@string/action_settings" />
+
+</menu>

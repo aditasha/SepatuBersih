@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/pickup_order"
+        android:title="@string/pickup_order" />
+
+    <item
+        android:id="@+id/deliv_order"
+        android:title="@string/deliver_order" />
+
+</menu>

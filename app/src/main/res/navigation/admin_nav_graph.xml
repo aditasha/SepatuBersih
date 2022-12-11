@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_nav_graph"
+    app:startDestination="@id/orderListAdminFragment">
+
+    <fragment
+        android:id="@+id/orderListAdminFragment"
+        android:name="com.aditasha.sepatubersih.presentation.admin.OrderListAdminFragment"
+        android:label="@string/order_list">
+        <action
+            android:id="@+id/action_adminOrderListFragment_to_adminOrderDetailFragment"
+            app:destination="@id/orderDetailAdminFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment2"
+        android:name="com.aditasha.sepatubersih.presentation.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/orderDetailAdminFragment"
+        android:name="com.aditasha.sepatubersih.presentation.admin.OrderDetailAdminFragment"
+        android:label="AdminOrderDetailFragment">
+        <argument
+            android:name="key"
+            app:argType="string" />
+    </fragment>
+</navigation>

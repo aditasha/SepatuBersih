@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Material3.CardView.Elevated"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/addressName"
+            style="?attr/textAppearanceBodyLarge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_address"
+            app:fontFamily="@font/work_sans_medium"
+            app:layout_constraintBottom_toTopOf="@+id/address"
+            app:layout_constraintEnd_toStartOf="@id/iconEdit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/address"
+            style="?attr/textAppearanceBody2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:fontFamily="@font/work_sans"
+            app:layout_constraintBottom_toTopOf="@+id/addressNotes"
+            app:layout_constraintEnd_toStartOf="@id/iconEdit"
+            app:layout_constraintStart_toStartOf="@id/addressName"
+            app:layout_constraintTop_toBottomOf="@id/addressName"
+            tools:text="Jl.Kukusan Raya"
+            tools:visibility="visible" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/addressNotes"
+            style="?attr/textAppearanceCaption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:fontFamily="@font/work_sans"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iconEdit"
+            app:layout_constraintStart_toStartOf="@id/addressName"
+            app:layout_constraintTop_toBottomOf="@id/address"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="Notes: Dekat belokan"
+            tools:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/iconEdit"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            app:icon="@drawable/ic_baseline_keyboard_arrow_right_24"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/need_verif"
+        android:title="@string/need_verification" />
+
+    <item
+        android:id="@+id/pickup_queue"
+        android:title="@string/pickup_queue" />
+
+    <item
+        android:id="@+id/pickup_process"
+        android:title="@string/pickup_process" />
+
+    <item
+        android:id="@+id/arrived_store"
+        android:title="@string/arrived_on_store" />
+
+    <item
+        android:id="@+id/washing"
+        android:title="@string/washing" />
+
+    <item
+        android:id="@+id/delivery_queue"
+        android:title="@string/delivery_queue" />
+
+    <item
+        android:id="@+id/delivery_process"
+        android:title="@string/delivery_process" />
+
+    <item
+        android:id="@+id/complete"
+        android:title="@string/complete" />
+
+    <item
+        android:id="@+id/canceled"
+        android:title="@string/canceled" />
+
+</menu>

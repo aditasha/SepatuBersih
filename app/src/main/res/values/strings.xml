@@ -1,0 +1,211 @@
+<resources>
+    <string name="app_name">Sepatu Bersih</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
+        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
+        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
+        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
+        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
+        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
+        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
+        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
+        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
+        bibendum, vel congue leo egestas.\n\n
+        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
+        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
+        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
+        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
+        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
+        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
+        est.
+    </string>
+    <string name="lorem_ipsum_backup">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
+        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
+        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
+        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
+        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
+        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
+        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
+        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
+        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
+        bibendum, vel congue leo egestas.\n\n
+        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
+        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
+        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
+        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
+        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
+        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
+        est.\n\n
+        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
+        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
+        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
+        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
+        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
+        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
+        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
+        convallis.\n\n
+        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
+        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
+        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
+        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
+        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
+        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
+    </string>
+    <!-- Strings related to login -->
+    <string name="email">Email</string>
+    <string name="phone_number">Phone number</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_register">Register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_otp">Insert OTP</string>
+    <string name="welcome">"Welcome %1$s"</string>
+    <string name="invalid_email">Not a valid email</string>
+    <string name="invalid_number">Not a valid phone number</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="register_failed">"Register failed"</string>
+    <string name="logout">Logout</string>
+    <string name="not_signed_in_profile">Sign in to access profile</string>
+    <string name="name">Name</string>
+    <string name="name_cant_less">Your name cannot be less than 3 character</string>
+    <string name="save">Save</string>
+    <string name="profile">Profile</string>
+    <string name="profile_edit">Profile edit</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Order list -->
+    <string name="ongoing_list">Ongoing</string>
+    <string name="completed_list">Complete</string>
+    <string name="not_assigned_list">Not assigned</string>
+
+    <string name="home_welcome">Welcome, %1$s</string>
+    <string name="services">Services</string>
+    <string name="premium_shoes_cleaning">Premium Shoes Cleaning</string>
+    <string name="article">Article</string>
+
+    <string name="address">Address</string>
+    <string name="address_name">Address name</string>
+    <string name="address_name_helper">Ex: Home</string>
+    <string name="address_notes">Address notes</string>
+    <string name="address_notes_helper">Ex: Near a market</string>
+    <string name="add_address">Add address</string>
+    <string name="success_add_address">Success adding address</string>
+    <string name="update_address">Update address</string>
+    <string name="success_update_address">Success updating address</string>
+    <string name="choose_address">Choose pickup/delivery address</string>
+    <string name="registered_address">Registered address</string>
+    <string name="saved_address_empty">Your saved address is empty, please add one first</string>
+
+    <string name="shoes">Shoes</string>
+    <string name="shoes_name">Shoes name</string>
+    <string name="shoes_name_helper">Ex: Running shoes</string>
+    <string name="shoes_brand_type">Shoes brand and type</string>
+    <string name="shoes_brand_type_helper">Ex: Adidas superstar</string>
+    <string name="shoes_color">Shoes color</string>
+    <string name="shoes_color_helper">Ex: Red with white stripe</string>
+    <string name="shoes_notes">Shoes notes</string>
+    <string name="shoes_notes_helper">Ex: Yellow shoelace with heel crease</string>
+    <string name="add_shoes">Add shoes</string>
+    <string name="success_add_shoes">Success adding shoes</string>
+    <string name="update_shoes">Update shoes</string>
+    <string name="success_update_shoes">Success updating shoes</string>
+    <string name="add_shoes_wash">Add shoes to wash</string>
+    <string name="registered_shoes">Registered shoes</string>
+    <string name="saved_shoes_empty">Your saved shoes is empty, please add one first</string>
+
+    <string name="name_cant_empty">Name cannot be empty</string>
+    <string name="brand_type_cant_empty">Brand and type cannot be empty</string>
+    <string name="color_cant_empty">Color cannot be empty</string>
+
+    <string name="color_placeholder">Color: %1$s</string>
+    <string name="notes_placeholder">Notes: %1$s</string>
+
+    <string name="order">Order</string>
+    <string name="home">Home</string>
+    <string name="order_form">Order form</string>
+    <string name="order_detail">Order detail</string>
+
+    <string name="order_list">Order list</string>
+    <string name="empty_order_filter">No order data with this filter</string>
+    <string name="empty_ongoing">You haven\'t place any order</string>
+    <string name="empty_completed">Your completed order is empty</string>
+    <string name="order_filter">Order filter</string>
+
+    <string name="detail_status">Status :</string>
+    <string name="detail_order_summary">Order summary</string>
+    <string name="detail_grand_total">Grand total</string>
+    <string name="detail_upload_proof">Upload proof of payment</string>
+    <string name="detail_how_to_pay">How to pay</string>
+    <string name="detail_self_pickup">Self pickup</string>
+    <string name="detail_deliver_to_address">Deliver to address</string>
+    <string name="paid">Paid</string>
+    <string name="proof_of_payment">Proof of payment</string>
+    <string name="want_to_upload_proof">Upload this image as proof?</string>
+    <string name="uploading_proof">Uploading proof of payment</string>
+    <string name="confirm_self_pickup">Self pickup confirmation</string>
+    <string name="confirm_delivery">Delivery confirmation</string>
+    <string name="message_self_pickup">Are you sure you want to self pickup this order?</string>
+    <string name="message_delivery">Are you sure you want this order to be delivered?</string>
+    <string name="need_proof">"Need proof of payment, please upload before timer ends"</string>
+    <string name="cancel_order">Cancel order</string>
+    <string name="update_status">Update status</string>
+    <string name="order_id_placeholder">Order %1$s</string>
+    <string name="updated_on_placeholder">Updated on %1$s</string>
+    <string name="expired_in_placeholder">Expired in: %1$s</string>
+
+    <string name="description">Description</string>
+    <string name="price">Price</string>
+    <string name="price_placeholder">Rp. %1$s</string>
+    <string name="start_from">Start from Rp. 50.000</string>
+
+    <string name="logout_menu">Logout menu</string>
+    <string name="need_verification">Need verification</string>
+    <string name="need_verif">Need verif</string>
+    <string name="pickup_queue">Pickup queue</string>
+    <string name="pickup_process">Pickup process</string>
+    <string name="arrived_on_store">Arrived on store</string>
+    <string name="washing">Washing</string>
+    <string name="delivery_queue">Delivery queue</string>
+    <string name="delivery_process">Delivery process</string>
+    <string name="complete">Complete</string>
+    <string name="canceled">Canceled</string>
+    <string name="pickup_order">Pickup order</string>
+    <string name="deliver_order">Deliver order</string>
+    <string name="delivery_order">Delivery order</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="close">Close</string>
+    <string name="upload">Upload</string>
+    <string name="cancel">Cancel</string>
+    <string name="take_order">Take order</string>
+    <string name="finish_order">Finish order</string>
+    <string name="status_pickup_order">Pickup this order?</string>
+    <string name="status_deliver_order">Deliver this order?</string>
+    <string name="status_finish_pickup">Finish pickup order?</string>
+    <string name="status_finish_deliv">Finish delivery order?</string>
+    <string name="status_cancel_pickup">Cancel pickup order?</string>
+    <string name="status_cancel_deliv">Cancel delivery order?</string>
+    <string name="status_to_pickup_queue">Update order status to pickup queue?</string>
+    <string name="status_to_washing">Update order status to washing?</string>
+    <string name="status_to_finish_washing">Update order status to finish washing?</string>
+    <string name="status_to_complete">Update order status to complete?</string>
+    <string name="status_cancel_order">Cancel this order?</string>
+
+    <string name="wa_uri_string">https://wa.me/%1$s</string>
+    <string name="maps_uri_string">http://maps.google.com/maps?q=loc:%1$s,%2$s (%3$s)</string>
+</resources>

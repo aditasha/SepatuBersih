@@ -6,6 +6,7 @@
         <item name="android:statusBarColor">?attr/colorOnPrimary</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
         <item name="android:navigationBarColor">?attr/colorSurfaceVariant</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
 
         <item name="fontFamily">@font/work_sans</item>
         <item name="android:fontFamily">@font/work_sans</item>
@@ -87,12 +88,16 @@
     </style>
 
     <style name="ThemeOverlay.App.Card" parent="">
-        <item name="colorSurfaceVariant">@color/md_theme_light_surface</item>
+        <item name="colorSurfaceVariant">?attr/colorSurface</item>
     </style>
 
     <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="colorSurface">@color/md_theme_light_surface</item>
-        <item name="colorSurfaceVariant">@color/md_theme_light_surface</item>
-        <item name="colorContainer">@color/md_theme_light_surface</item>
+        <item name="colorPrimary">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="ThemeOverlay.App.FullScreenDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+<!--        <item name="colorPrimary">@color/md_theme_light_onPrimary</item>-->
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/white</item>
     </style>
 </resources>

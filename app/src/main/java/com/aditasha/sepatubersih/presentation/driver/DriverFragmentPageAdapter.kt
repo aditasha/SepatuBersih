@@ -11,15 +11,15 @@ class DriverFragmentPageAdapter(fragment: Fragment) : FragmentStateAdapter(fragm
     }
 
     override fun createFragment(position: Int): Fragment {
-        val fragment = OrderListDriverFragment()
+        val fragment = OrderUnassignedListDriverFragment()
         return when (position) {
             0 -> {
-                val bundle = bundleOf(PAGE to ONGOING)
+                val bundle = bundleOf(PAGE to PICKUP)
                 fragment.arguments = bundle
                 fragment
             }
             else -> {
-                val bundle = bundleOf(PAGE to COMPLETE)
+                val bundle = bundleOf(PAGE to DELIV)
                 fragment.arguments = bundle
                 fragment
             }
@@ -28,7 +28,7 @@ class DriverFragmentPageAdapter(fragment: Fragment) : FragmentStateAdapter(fragm
 
     companion object {
         const val PAGE = "page"
-        const val ONGOING = "ongoing"
-        const val COMPLETE = "complete"
+        const val PICKUP = "pickup"
+        const val DELIV = "delivery"
     }
 }

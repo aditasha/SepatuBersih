@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aditasha.sepatubersih.R
@@ -25,15 +23,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class OrderListDriverFragment : Fragment() {
+class OrderUnassignedListDriverFragment : Fragment() {
 
     private var _binding: FragmentOrderListDriverBinding? = null
     private val binding get() = _binding!!
-
-    private val orderDriverViewModel: OrderDriverViewModel by activityViewModels()
-
-    private val currentUser
-        get() = orderDriverViewModel.currentUser
 
     private var orderDriverAdapter: FirebaseOrderDriverAdapter? = null
 
@@ -58,71 +51,24 @@ class OrderListDriverFragment : Fragment() {
 
         binding.loading.isVisible = true
         if (orderType != null)
-            currentUser?.let { currentUser ->
-//                loadingScreen()
-                when (orderType) {
-                    DriverFragmentPageAdapter.ONGOING -> {
-                        query =
-                            firebaseDatabase.reference.child(RealtimeDatabaseConstants.ALL_ORDER_ITEM)
-                                .orderByChild("driver")
-                                .equalTo(currentUser.uid)
-                                .limitToFirst(15)
-                    }
-                    DriverFragmentPageAdapter.COMPLETE -> {
-                        query =
-                            firebaseDatabase.reference.child(RealtimeDatabaseConstants.ALL_ORDER_ITEM)
-                                .orderByChild("status")
-                                .equalTo(orderDriverViewModel.filterOrder)
-                                .limitToFirst(15)
-
-                        binding.filter.apply {
-                            isVisible = true
-                            text = getString(R.string.pickup_order)
-                            setOnClickListener {
-                                val popupMenu = PopupMenu(requireContext(), it)
-                                popupMenu.menuInflater.inflate(
-                                    R.menu.menu_order_driver_popup,
-                                    popupMenu.menu
-                                )
-
-                                popupMenu.setOnMenuItemClickListener { popup ->
-                                    when (popup.itemId) {
-                                        R.id.pickup_order -> {
-                                            orderDriverViewModel.filterOrder =
-                                                RealtimeDatabaseConstants.QUEUE_FOR_PICKUP
-                                            query = firebaseDatabase.reference.child(
-                                                RealtimeDatabaseConstants.ALL_ORDER_ITEM
-                                            )
-                                                .orderByChild("status")
-                                                .equalTo(RealtimeDatabaseConstants.QUEUE_FOR_PICKUP)
-                                                .limitToFirst(15)
-                                            updateRecycler()
-                                            binding.filter.text = getString(R.string.pickup_order)
-                                            true
-                                        }
-                                        R.id.deliv_order -> {
-                                            orderDriverViewModel.filterOrder =
-                                                RealtimeDatabaseConstants.QUEUE_FOR_DELIV
-                                            query = firebaseDatabase.reference.child(
-                                                RealtimeDatabaseConstants.ALL_ORDER_ITEM
-                                            )
-                                                .orderByChild("status")
-                                                .equalTo(RealtimeDatabaseConstants.QUEUE_FOR_DELIV)
-                                                .limitToFirst(15)
-                                            updateRecycler()
-                                            binding.filter.text = getString(R.string.delivery_order)
-                                            true
-                                        }
-                                        else -> false
-                                    }
-                                }
-                                popupMenu.show()
-                            }
-                        }
-                    }
+            when (orderType) {
+                DriverFragmentPageAdapter.PICKUP -> {
+                    query =
+                        firebaseDatabase.reference.child(RealtimeDatabaseConstants.ALL_ORDER_ITEM)
+                            .orderByChild("status")
+                            .equalTo(RealtimeDatabaseConstants.QUEUE_FOR_PICKUP)
+                            .limitToFirst(15)
                 }
-                setupRecycler()
+                DriverFragmentPageAdapter.DELIV -> {
+                    query =
+                        firebaseDatabase.reference.child(RealtimeDatabaseConstants.ALL_ORDER_ITEM)
+                            .orderByChild("status")
+                            .equalTo(RealtimeDatabaseConstants.QUEUE_FOR_DELIV)
+                            .limitToFirst(15)
+
+                }
             }
+        setupRecycler()
     }
 
     private fun setupRecycler() {
@@ -153,7 +99,7 @@ class OrderListDriverFragment : Fragment() {
         orderDriverAdapter?.setOnClickCallback(object : OrderDriverOnClickCallback {
             override fun onOrderClicked(key: String) {
                 val action =
-                    OrderDriverFragmentDirections.actionOrderDriverFragmentToOrderDetailDriverFragment(
+                    OrderUnassignedDriverFragmentDirections.actionOrderUnassignedDriverFragmentToOrderDetailDriverFragment(
                         key
                     )
                 findNavController().navigate(action)
@@ -165,17 +111,6 @@ class OrderListDriverFragment : Fragment() {
             }
 
         })
-    }
-
-    private fun updateRecycler() {
-        binding.loading.isVisible = true
-        val recyclerOptions = FirebaseRecyclerOptions.Builder<SbOrderItem>()
-            .setLifecycleOwner(this)
-            .setQuery(query, SbOrderItem::class.java)
-            .build()
-
-        orderDriverAdapter?.updateOptions(recyclerOptions)
-        orderDriverAdapter?.notifyDataSetChanged()
     }
 
 //    private fun loadingScreen() {
@@ -214,6 +149,11 @@ class OrderListDriverFragment : Fragment() {
 //            root.isRefreshing = false
 //        }
 //    }
+
+    override fun onResume() {
+        super.onResume()
+        orderDriverAdapter?.notifyDataSetChanged()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

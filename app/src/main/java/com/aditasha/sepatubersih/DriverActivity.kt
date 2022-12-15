@@ -44,7 +44,10 @@ class DriverActivity : AppCompatActivity() {
         navController.graph = graph
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.orderDriverFragment)
+            setOf(
+                R.id.orderOngoingListDriverFragment,
+                R.id.orderUnassignedDriverFragment
+            )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.appBar.forceLayout()
@@ -78,7 +81,7 @@ class DriverActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_driver, menu)
+        menuInflater.inflate(R.menu.menu_driver_admin, menu)
         return true
     }
 

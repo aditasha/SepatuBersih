@@ -15,14 +15,15 @@
     </fragment>
 
     <fragment
-        android:id="@+id/profileFragment2"
-        android:name="com.aditasha.sepatubersih.presentation.profile.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        android:id="@+id/articleFragment"
+        android:name="com.aditasha.sepatubersih.presentation.admin.ArticleAdminFragment"
+        android:label="@string/article_list"
+        tools:layout="@layout/fragment_article_admin" />
+
     <fragment
         android:id="@+id/orderDetailAdminFragment"
         android:name="com.aditasha.sepatubersih.presentation.admin.OrderDetailAdminFragment"
-        android:label="AdminOrderDetailFragment">
+        android:label="@string/order_detail">
         <argument
             android:name="key"
             app:argType="string" />

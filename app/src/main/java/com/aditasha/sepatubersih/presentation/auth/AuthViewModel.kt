@@ -1,19 +1,21 @@
 package com.aditasha.sepatubersih.presentation.auth
 
-import androidx.lifecycle.ViewModel
+import android.util.Log
 import android.util.Patterns
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aditasha.sepatubersih.data.repository.AuthRepositoryImpl
 import com.aditasha.sepatubersih.domain.model.Result
-
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor (private val authRepositoryImpl: AuthRepositoryImpl) : ViewModel() {
+class AuthViewModel @Inject constructor(private val authRepositoryImpl: AuthRepositoryImpl) :
+    ViewModel() {
 
     private val _authForm = MutableSharedFlow<AuthFormState>()
     val authForm: SharedFlow<AuthFormState> = _authForm
@@ -42,8 +44,14 @@ class AuthViewModel @Inject constructor (private val authRepositoryImpl: AuthRep
         }
     }
 
-    fun checkAuthForm(email: String, number: String? = null, name: String? = null, password: String) {
+    fun checkAuthForm(
+        email: String,
+        name: String? = null,
+        number: String? = null,
+        password: String
+    ) {
         viewModelScope.launch {
+            Log.d("test", "name " + name.toString())
             val emailError = emailError(email)
             val nameError = if (name != null) nameError(name) else null
             val numberError = if (number != null) numberError(number) else null
@@ -80,11 +88,14 @@ class AuthViewModel @Inject constructor (private val authRepositoryImpl: AuthRep
     }
 
     private fun nameError(name: String): Boolean? {
+        Log.d("test", "name " + name + "length " + name.length)
         return if (name.isBlank()) null
         else name.length < 3
     }
 
     private fun numberError(number: String): Boolean? {
+        val a = !Patterns.PHONE.matcher(number).matches()
+        Log.d("test", "result " + a + " " + number)
         return if (number.isBlank()) null
         else !Patterns.PHONE.matcher(number).matches()
     }

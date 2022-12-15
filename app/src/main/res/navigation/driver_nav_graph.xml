@@ -3,27 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/admin_nav_graph"
-    app:startDestination="@id/orderDriverFragment">
+    app:startDestination="@id/orderOngoingListDriverFragment">
 
     <fragment
-        android:id="@+id/orderDriverFragment"
-        android:name="com.aditasha.sepatubersih.presentation.driver.OrderDriverFragment"
-        android:label="@string/order_list">
+        android:id="@+id/orderOngoingListDriverFragment"
+        android:name="com.aditasha.sepatubersih.presentation.driver.OrderOngoingListDriverFragment"
+        android:label="@string/ongoing_order">
         <action
             android:id="@+id/action_orderDriverFragment_to_orderDetailDriverFragment"
             app:destination="@id/orderDetailDriverFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/profileFragment2"
-        android:name="com.aditasha.sepatubersih.presentation.profile.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        android:id="@+id/orderUnassignedDriverFragment"
+        android:name="com.aditasha.sepatubersih.presentation.driver.OrderUnassignedDriverFragment"
+        android:label="@string/unassigned_order"
+        tools:layout="@layout/fragment_order_list_driver" >
+        <action
+            android:id="@+id/action_orderUnassignedDriverFragment_to_orderDetailDriverFragment"
+            app:destination="@id/orderDetailDriverFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/orderDetailDriverFragment"
         android:name="com.aditasha.sepatubersih.presentation.driver.OrderDetailDriverFragment"
-        android:label="OrderDetailDriverFragment">
+        android:label="@string/order_detail">
         <argument
             android:name="key"
             app:argType="string" />

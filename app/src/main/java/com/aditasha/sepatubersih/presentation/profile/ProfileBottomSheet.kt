@@ -10,7 +10,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aditasha.sepatubersih.R
@@ -52,8 +51,6 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
         return dialog
     }
 
-    override fun getTheme(): Int = R.style.Base_Theme_SepatuBersih
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -77,17 +74,12 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        firebaseAddressAdapter?.stopListening()
-        firebaseShoesAdapter?.stopListening()
-    }
-
     private fun addressList() {
         val reference = firebaseDatabase.reference.child(RealtimeDatabaseConstants.ADDRESS)
             .child(currentUser!!.uid)
 
         val options = FirebaseRecyclerOptions.Builder<SbAddress>()
+            .setLifecycleOwner(this)
             .setQuery(reference, SbAddress::class.java)
             .build()
 
@@ -101,11 +93,15 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
             }
 
             override fun onEditClicked(data: Parcelable) {
-                val action =
-                    ProfileBottomSheetDirections.actionProfileBottomSheetToAddAddressFragment(
-                        data as SbAddress
-                    )
-                findNavController().navigate(action)
+//                val action =
+//                    ProfileBottomSheetDirections.actionProfileBottomSheetToAddAddressFragment(
+//                        data as SbAddress
+//                    )
+//                findNavController().navigate(action)
+                val addAddress = AddAddressFragment()
+                val args = bundleOf("address" to data as SbAddress)
+                addAddress.arguments = args
+                addAddress.show(childFragmentManager, "address")
             }
 
             override fun onOrderClicked(data: Parcelable) {
@@ -134,22 +130,22 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
             addButton.text = getString(R.string.add_address)
 
             addButton.setOnClickListener {
-                val action =
-                    ProfileBottomSheetDirections.actionProfileBottomSheetToAddAddressFragment()
-                findNavController().navigate(action)
+//                val action =
+//                    ProfileBottomSheetDirections.actionProfileBottomSheetToAddAddressFragment()
+//                findNavController().navigate(action)
+                AddAddressFragment().show(childFragmentManager, "address")
             }
 
             emptyText.text = getString(R.string.saved_address_empty)
         }
-        addressAdapter.startListening()
     }
 
     private fun shoesList() {
         val reference = firebaseDatabase.reference.child(RealtimeDatabaseConstants.SHOES)
             .child(currentUser!!.uid)
-            .limitToFirst(2)
 
         val options = FirebaseRecyclerOptions.Builder<SbShoes>()
+            .setLifecycleOwner(this)
             .setQuery(reference, SbShoes::class.java)
             .build()
 
@@ -163,9 +159,13 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
             }
 
             override fun onEditClicked(data: Parcelable) {
-                val action =
-                    ProfileBottomSheetDirections.actionProfileBottomSheetToAddShoesFragment(data as SbShoes)
-                findNavController().navigate(action)
+//                val action =
+//                    ProfileBottomSheetDirections.actionProfileBottomSheetToAddShoesFragment(data as SbShoes)
+//                findNavController().navigate(action)
+                val addShoes = AddShoesFragment()
+                val args = bundleOf("shoes" to data as SbShoes)
+                addShoes.arguments = args
+                addShoes.show(childFragmentManager, "shoes")
             }
 
             override fun onOrderClicked(data: Parcelable) {
@@ -194,14 +194,20 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
             addButton.text = getString(R.string.add_shoes)
 
             addButton.setOnClickListener {
-                val action =
-                    ProfileBottomSheetDirections.actionProfileBottomSheetToAddShoesFragment()
-                findNavController().navigate(action)
+//                val action =
+//                    ProfileBottomSheetDirections.actionProfileBottomSheetToAddShoesFragment()
+//                findNavController().navigate(action)
+                AddShoesFragment().show(childFragmentManager, "shoes")
             }
 
             emptyText.text = getString(R.string.saved_shoes_empty)
         }
-        shoesAdapter.startListening()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        firebaseAddressAdapter?.notifyDataSetChanged()
+        firebaseShoesAdapter?.notifyDataSetChanged()
     }
 
     override fun onDestroyView() {

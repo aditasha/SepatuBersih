@@ -1,10 +1,12 @@
 package com.aditasha.sepatubersih.presentation.profile
 
 import android.os.Bundle
+import android.telephony.PhoneNumberUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -12,10 +14,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.aditasha.sepatubersih.R
 import com.aditasha.sepatubersih.databinding.FragmentProfileEditBinding
 import com.aditasha.sepatubersih.domain.model.Result
 import com.aditasha.sepatubersih.presentation.auth.AuthViewModel
+import com.aditasha.sepatubersih.presentation.auth.OtpFragment
+import com.aditasha.sepatubersih.presentation.auth.OtpUtils
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +39,12 @@ class ProfileEditFragment : Fragment() {
     @Inject
     lateinit var firebaseAuth: FirebaseAuth
 
+    private var callback: PhoneAuthProvider.OnVerificationStateChangedCallbacks? = null
+    private var otpFragment: OtpFragment? = null
+    private var verifId: String? = null
+    private var resendToken: PhoneAuthProvider.ForceResendingToken? = null
+    private var number = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,16 +56,51 @@ class ProfileEditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var number = ""
+        childFragmentManager.setFragmentResultListener(OtpUtils.RESEND, this) { _, _ ->
+            resendToken?.let {
+                resendToken(it)
+            }
+        }
+
         val callback = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                firebaseAuth.currentUser?.updatePhoneNumber(credential)
-                binding.loading.isVisible = false
-                requireActivity().onNavigateUp()
+                childFragmentManager.setFragmentResult(
+                    OtpUtils.VERIFY,
+                    bundleOf(OtpUtils.OTP to credential)
+                )
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
-                e.localizedMessage?.let { showRegisterFailed(it) }
+                e.localizedMessage?.let {
+                    otpFragment?.dismiss()
+                    showRegisterFailed(it)
+                }
+            }
+
+            override fun onCodeSent(
+                verificationId: String,
+                resendToken: PhoneAuthProvider.ForceResendingToken
+            ) {
+                verifId = verificationId
+                this@ProfileEditFragment.resendToken = resendToken
+                if (otpFragment != null) {
+                    childFragmentManager.setFragmentResult(
+                        OtpUtils.RESENDTOKEN, bundleOf(
+                            "verifId" to verifId,
+                            "resendToken" to this@ProfileEditFragment.resendToken
+                        )
+                    )
+                } else {
+                    otpFragment = OtpFragment()
+                    val args = bundleOf(
+                        "verifId" to verifId,
+                        "resendToken" to this@ProfileEditFragment.resendToken,
+                        "number" to number,
+                        "edit" to true
+                    )
+                    otpFragment?.arguments = args
+                    otpFragment?.show(childFragmentManager, "otp")
+                }
             }
         }
 
@@ -87,14 +133,23 @@ class ProfileEditFragment : Fragment() {
                 when (loginResult) {
                     is Result.Success -> {
                         if (loginResult.data != null) {
-                            val options = PhoneAuthOptions.newBuilder(firebaseAuth)
-                                .setPhoneNumber(number)
-                                .setActivity(requireActivity())
-                                .setTimeout(30L, TimeUnit.SECONDS)
-                                .setCallbacks(callback)
-                                .build()
-                            PhoneAuthProvider.verifyPhoneNumber(options)
-                            authViewModel.currentUser?.let { updateUiWithUser(it) }
+                            val user = loginResult.data as FirebaseUser
+                            if (number != user.phoneNumber) {
+                                val options = PhoneAuthOptions.newBuilder(firebaseAuth)
+                                    .setPhoneNumber(number)
+                                    .setActivity(requireActivity())
+                                    .setTimeout(30L, TimeUnit.SECONDS)
+                                    .setCallbacks(callback)
+                                    .build()
+                                PhoneAuthProvider.verifyPhoneNumber(options)
+                            } else {
+                                Toast.makeText(
+                                    requireActivity(),
+                                    getString(R.string.success_update_profile),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                findNavController().navigateUp()
+                            }
                         }
                     }
                     is Result.Error -> {
@@ -126,12 +181,15 @@ class ProfileEditFragment : Fragment() {
 
         binding.saveProfile.setOnClickListener {
             binding.loading.isVisible = true
-//            number = PhoneNumberUtils.formatNumberToE164(numberEditText.text.toString(), "ID").toString()
-            number = "+1 650-555-1234"
-            firebaseAuth.firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber(
-                number,
-                "123456"
-            )
+            number = PhoneNumberUtils.formatNumberToE164(
+                binding.phoneNumberEditText.text.toString(),
+                "ID"
+            ).toString()
+//            number = "+1 650-555-1234"
+//            firebaseAuth.firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber(
+//                number,
+//                "123456"
+//            )
             authViewModel.editProfile(
                 binding.nameEditText.text.toString()
             )
@@ -144,6 +202,19 @@ class ProfileEditFragment : Fragment() {
                 nameEditText.text.toString(),
                 phoneNumberEditText.text.toString()
             )
+        }
+    }
+
+    private fun resendToken(resendToken: PhoneAuthProvider.ForceResendingToken) {
+        callback?.let {
+            val options = PhoneAuthOptions.newBuilder(firebaseAuth)
+                .setPhoneNumber(number)
+                .setActivity(requireActivity())
+                .setTimeout(30L, TimeUnit.SECONDS)
+                .setCallbacks(it)
+                .setForceResendingToken(resendToken)
+                .build()
+            PhoneAuthProvider.verifyPhoneNumber(options)
         }
     }
 

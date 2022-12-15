@@ -21,10 +21,12 @@ import com.aditasha.sepatubersih.domain.model.SbOrder
 import com.aditasha.sepatubersih.domain.model.SbShoes
 import com.aditasha.sepatubersih.presentation.profile.ProfileBottomSheet
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class OrderFormFragment : Fragment() {
@@ -34,11 +36,33 @@ class OrderFormFragment : Fragment() {
 
     private val orderViewModel: OrderViewModel by activityViewModels()
 
+    private val currentUser
+        get() = orderViewModel.currentUser
+
     private var selectedAddress = SbAddress()
     private val shoesList = arrayListOf<SbShoes>()
     private val shoesAdapter = ShoesListAdapter(this::onDeleteClick)
 
     private var price = PRICE
+
+    @Inject
+    lateinit var firebaseAuth: FirebaseAuth
+    private val authListener = FirebaseAuth.AuthStateListener {
+        binding.shoesCard.isVisible = currentUser != null
+        binding.addressCard.isVisible = currentUser != null
+        binding.totalCard.isVisible = currentUser != null
+        binding.loginLayout.isVisible = currentUser == null
+    }
+
+    override fun onStart() {
+        super.onStart()
+        firebaseAuth.addAuthStateListener(authListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        firebaseAuth.removeAuthStateListener(authListener)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +74,11 @@ class OrderFormFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.login.setOnClickListener {
+            val action = OrderFormFragmentDirections.actionOrderFormFragmentToLoginFragment()
+            findNavController().navigate(action)
+        }
 
         setFragmentResultListener(ProfileBottomSheet.ADDRESS) { _, bundle ->
             @Suppress("DEPRECATION") val sbAddress =
@@ -74,8 +103,8 @@ class OrderFormFragment : Fragment() {
                 if (sbShoes != null) {
                     if (!shoesList.contains(sbShoes)) {
                         shoesList.add(sbShoes)
-                        shoesAdapter.submitList(shoesList)
-                        updatePrice(shoesAdapter.itemCount)
+                        shoesAdapter.submitList(shoesList.toList())
+                        updatePrice(shoesList.count())
                         orderButtonCheck()
                     }
                 }
@@ -141,8 +170,8 @@ class OrderFormFragment : Fragment() {
                 break
             }
         }
-        shoesAdapter.submitList(shoesList)
-        updatePrice(shoesAdapter.itemCount)
+        shoesAdapter.submitList(shoesList.toList())
+        updatePrice(shoesList.count())
         orderButtonCheck()
     }
 

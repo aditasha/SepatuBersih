@@ -1,8 +1,10 @@
 package com.aditasha.sepatubersih.data.repository
 
+import android.net.Uri
 import com.aditasha.sepatubersih.ServerTime
 import com.aditasha.sepatubersih.data.RealtimeDatabaseConstants
 import com.aditasha.sepatubersih.domain.model.Result
+import com.aditasha.sepatubersih.domain.model.SbArticle
 import com.aditasha.sepatubersih.domain.model.SbOrder
 import com.aditasha.sepatubersih.domain.model.SbOrderItem
 import com.aditasha.sepatubersih.domain.repository.OrderAdminRepository
@@ -121,6 +123,66 @@ class OrderAdminRepositoryImpl @Inject constructor(
             }
 
             Result.Success(sbOrder)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun addArticle(sbArticle: SbArticle, imageUri: Uri): Result<String> {
+        return try {
+            Result.Loading
+            val articleRef =
+                firebaseDatabase.reference.child(RealtimeDatabaseConstants.ARTICLE).push()
+            val timeStamp = Date().time + serverTime.getServerTime()
+            val storageRef = firebaseStorage.reference.child(RealtimeDatabaseConstants.ARTICLE)
+                .child(articleRef.key!!)
+                .child(sbArticle.image!!)
+
+            sbArticle.key = articleRef.key
+            sbArticle.timestamp = timeStamp
+            sbArticle.reverseStamp = 1 - timeStamp
+
+            storageRef.putFile(imageUri).await()
+            articleRef.setValue(sbArticle).await()
+            Result.Success(articleRef.key)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun updateArticle(sbArticle: SbArticle, imageUri: Uri?): Result<String> {
+        return try {
+            Result.Loading
+            val articleRef = firebaseDatabase.reference.child(RealtimeDatabaseConstants.ARTICLE)
+                .child(sbArticle.key!!)
+            val storageRef = firebaseStorage.reference.child(RealtimeDatabaseConstants.ARTICLE)
+                .child(sbArticle.key!!)
+                .child(sbArticle.image!!)
+
+            if (imageUri != null) {
+                storageRef.putFile(imageUri).await()
+            }
+            articleRef.updateChildren(sbArticle.toMap()).await()
+            Result.Success(articleRef.key)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun deleteArticle(key: String): Result<Any> {
+        return try {
+            Result.Loading
+            val articleRef = firebaseDatabase.reference.child(RealtimeDatabaseConstants.ARTICLE)
+                .child(key)
+            val storageRef = firebaseStorage.reference.child(RealtimeDatabaseConstants.ARTICLE)
+                .child(key)
+
+            storageRef.delete().await()
+            articleRef.setValue(null).await()
+            Result.Success(Any())
         } catch (e: Exception) {
             e.printStackTrace()
             Result.Error(e)

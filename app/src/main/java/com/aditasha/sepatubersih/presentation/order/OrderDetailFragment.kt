@@ -1,13 +1,19 @@
 package com.aditasha.sepatubersih.presentation.order
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.appcompat.widget.LinearLayoutCompat
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.BuildCompat
 import androidx.core.view.isVisible
@@ -23,7 +29,8 @@ import com.aditasha.sepatubersih.databinding.FragmentOrderDetailBinding
 import com.aditasha.sepatubersih.domain.model.Result
 import com.aditasha.sepatubersih.domain.model.SbOrder
 import com.aditasha.sepatubersih.domain.model.SbShoes
-import com.aditasha.sepatubersih.presentation.profile.uriToFile
+import com.aditasha.sepatubersih.presentation.GlideApp
+import com.aditasha.sepatubersih.presentation.uriToFile
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -35,6 +42,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.zelory.compressor.Compressor
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -123,14 +131,15 @@ class OrderDetailFragment : Fragment() {
                         lifecycleScope.launch { setTimer(order.endTimestamp!!) }
                         paymentStatus.text =
                             getString(R.string.need_proof)
-                    } else if (order.status!! == RealtimeDatabaseConstants.CANCELLED || order.status!! == RealtimeDatabaseConstants.EXPIRED)
-                        paymentStatus.isVisible = false
-                    else {
-                        paymentStatus.text = getString(R.string.paid)
-                        val param = paymentStatus.layoutParams as LinearLayoutCompat.LayoutParams
-                        param.gravity = Gravity.END
-                        paymentStatus.layoutParams = param
-                    }
+                    } else paymentStatus.isVisible = false
+//                    else if (order.status!! == RealtimeDatabaseConstants.CANCELLED || order.status!! == RealtimeDatabaseConstants.EXPIRED)
+//                        paymentStatus.isVisible = false
+//                    else {
+//                        paymentStatus.text = getString(R.string.paid)
+//                        val param = paymentStatus.layoutParams as LinearLayoutCompat.LayoutParams
+//                        param.gravity = Gravity.END
+//                        paymentStatus.layoutParams = param
+//                    }
                 }
             }
 
@@ -156,6 +165,9 @@ class OrderDetailFragment : Fragment() {
         binding.apply {
             proofButton.setOnClickListener {
                 photoPicker.launch(PhotoPicker.Args(PhotoPicker.Type.IMAGES_ONLY, 1))
+            }
+            paymentTutorButton.setOnClickListener {
+                howToPayDialog()
             }
             pickupButton.setOnClickListener {
                 pickupDelivConfirmDialog(pickup = true)
@@ -195,7 +207,10 @@ class OrderDetailFragment : Fragment() {
                     val sfd = SimpleDateFormat("mm:ss")
 
                     requireActivity().runOnUiThread {
-                        binding.paymentTimer.text = getString(R.string.expired_in_placeholder, sfd.format(time))
+                        _binding?.let {
+                            it.paymentTimer.text =
+                                getString(R.string.expired_in_placeholder, sfd.format(time))
+                        }
                     }
                 }
 
@@ -272,7 +287,7 @@ class OrderDetailFragment : Fragment() {
 
     private fun proofConfirmDialog(uri: Uri) {
         val inflater = this.layoutInflater
-        val uploadView = inflater.inflate(R.layout.layout_proof_dialog, null)
+        val uploadView = inflater.inflate(R.layout.layout_image_dialog, null)
         val imageView = uploadView.findViewById<ImageView>(R.id.imageView)
 
         Glide.with(this)
@@ -297,12 +312,15 @@ class OrderDetailFragment : Fragment() {
     }
 
     private fun loadingDialog() {
+        val inflater = this.layoutInflater
+        val loadingView = inflater.inflate(R.layout.layout_loading_dialog, null)
+        val textView = loadingView.findViewById<TextView>(R.id.loadingText)
+        textView.text = getString(R.string.uploading_proof)
         val builder = MaterialAlertDialogBuilder(
             requireContext(),
             R.style.ThemeOverlay_App_MaterialAlertDialog
         )
-            .setView(R.layout.layout_loading_dialog)
-            .setTitle(getString(R.string.uploading_proof))
+            .setView(loadingView)
             .setCancelable(false)
 
         loadingDialog = builder.create()
@@ -310,7 +328,8 @@ class OrderDetailFragment : Fragment() {
     }
 
     private fun pickupDelivConfirmDialog(pickup: Boolean) {
-        val title = if (pickup) getString(R.string.confirm_self_pickup) else getString(R.string.confirm_delivery)
+        val title =
+            if (pickup) getString(R.string.confirm_self_pickup) else getString(R.string.confirm_delivery)
         val message =
             if (pickup) getString(R.string.message_self_pickup) else getString(R.string.message_delivery)
         MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
@@ -323,6 +342,71 @@ class OrderDetailFragment : Fragment() {
             .setNegativeButton(getString(R.string.no)) { dialog, _ ->
                 dialog.dismiss()
             }.show()
+    }
+
+    private fun howToPayDialog() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val ref = firebaseStorage.reference.child("qris")
+                .child("Sepatu Bersih QRIS.png")
+            try {
+                val url = ref.downloadUrl.await()
+                if (url != null) {
+                    val inflater = this@OrderDetailFragment.layoutInflater
+                    val howToView = inflater.inflate(R.layout.layout_how_to_pay_dialog, null)
+                    val imageView = howToView.findViewById<ImageView>(R.id.imageView)
+                    GlideApp.with(this@OrderDetailFragment)
+                        .load(ref)
+                        .into(imageView)
+                    val textView = howToView.findViewById<TextView>(R.id.messageDialog)
+                    val title = getString(R.string.detail_how_to_pay)
+                    textView.text = setMessageWithQrisLink(url)
+                    textView.movementMethod = LinkMovementMethod.getInstance()
+
+                    MaterialAlertDialogBuilder(
+                        requireContext(),
+                        R.style.ThemeOverlay_App_MaterialAlertDialog
+                    )
+                        .setTitle(title)
+                        .setView(howToView)
+                        .setPositiveButton(getString(R.string.close)) { dialog, _ ->
+                            dialog.dismiss()
+                        }.show()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(requireContext(), e.localizedMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun setMessageWithQrisLink(uri: Uri): SpannableString {
+        //The text and the URL
+        val content = getString(R.string.how_to_pay_message)
+        //Clickable Span will help us to make clickable a text
+        val clickableSpan = object : ClickableSpan() {
+            override fun onClick(textView: View) {
+                //To open the url in a browser
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+            }
+
+            override fun updateDrawState(textPaint: TextPaint) {
+                super.updateDrawState(textPaint)
+            }
+        }
+        val startIndex = content.indexOf("here")
+        val endIndex = startIndex + "here".length
+        //SpannableString will be created with the full content and
+        // the clickable content all together
+        val spannableString = SpannableString(content)
+        //only the word 'link' is clickable
+        spannableString.setSpan(
+            clickableSpan,
+            startIndex,
+            endIndex,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        return spannableString
     }
 
     override fun onStop() {

@@ -1,10 +1,13 @@
 package com.aditasha.sepatubersih.presentation.auth
 
 import android.os.Bundle
+import android.telephony.PhoneNumberUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -12,12 +15,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import com.aditasha.sepatubersih.R
 import com.aditasha.sepatubersih.databinding.FragmentRegisterBinding
 import com.aditasha.sepatubersih.domain.model.Result
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
+import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -35,6 +38,12 @@ class RegisterFragment : Fragment() {
     @Inject
     lateinit var firebaseAuth: FirebaseAuth
     private var currentUser: FirebaseUser? = null
+
+    private var callback: PhoneAuthProvider.OnVerificationStateChangedCallbacks? = null
+    private var otpFragment: OtpFragment? = null
+    private var verifId: String? = null
+    private var resendToken: ForceResendingToken? = null
+    private var number = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,26 +65,52 @@ class RegisterFragment : Fragment() {
         val loadingProgressBar = binding.loading
 
 
-        currentUser = authViewModel.currentUser
-        var number = ""
+        childFragmentManager.setFragmentResultListener(OtpUtils.RESEND, this) { _, _ ->
+            resendToken?.let {
+                resendToken(it)
+            }
+        }
 
-        val callback = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        currentUser = authViewModel.currentUser
+
+        callback = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                firebaseAuth.currentUser?.updatePhoneNumber(credential)
-                loadingProgressBar.isVisible = false
-                val action = RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()
-                findNavController().navigate(action)
+                childFragmentManager.setFragmentResult(
+                    OtpUtils.VERIFY,
+                    bundleOf(OtpUtils.OTP to credential)
+                )
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
-                e.localizedMessage?.let { showRegisterFailed(it) }
+                e.localizedMessage?.let {
+                    otpFragment?.dismiss()
+                    showRegisterFailed(it)
+                }
             }
 
             override fun onCodeSent(
                 verificationId: String,
-                resendToken: PhoneAuthProvider.ForceResendingToken
+                resendToken: ForceResendingToken
             ) {
-
+                verifId = verificationId
+                this@RegisterFragment.resendToken = resendToken
+                if (otpFragment != null) {
+                    childFragmentManager.setFragmentResult(
+                        OtpUtils.RESENDTOKEN, bundleOf(
+                            "verifId" to verifId,
+                            "resendToken" to this@RegisterFragment.resendToken
+                        )
+                    )
+                } else {
+                    otpFragment = OtpFragment()
+                    val args = bundleOf(
+                        "verifId" to verifId,
+                        "resendToken" to this@RegisterFragment.resendToken,
+                        "number" to number
+                    )
+                    otpFragment?.arguments = args
+                    otpFragment?.show(childFragmentManager, "otp")
+                }
             }
         }
 
@@ -90,11 +125,11 @@ class RegisterFragment : Fragment() {
                             email.isErrorEnabled = false
                         }
 
-                        if (state.emailError == true) {
-                            email.error = getString(R.string.invalid_email)
+                        if (state.nameError == true) {
+                            userName.error = getString(R.string.name_cant_less)
                         } else {
-                            email.error = null
-                            email.isErrorEnabled = false
+                            userName.error = null
+                            userName.isErrorEnabled = false
                         }
 
                         if (state.numberError == true) {
@@ -118,18 +153,19 @@ class RegisterFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             authViewModel.authResult.collect { loginResult ->
-                loadingProgressBar.isVisible = false
                 when (loginResult) {
                     is Result.Success -> {
                         if (loginResult.data != null) {
-                            val options = PhoneAuthOptions.newBuilder(firebaseAuth)
-                                .setPhoneNumber(number)
-                                .setActivity(requireActivity())
-                                .setTimeout(30L, TimeUnit.SECONDS)
-                                .setCallbacks(callback)
-                                .build()
-                            PhoneAuthProvider.verifyPhoneNumber(options)
-                            updateUiWithUser(currentUser!!)
+                            callback?.let {
+                                val options = PhoneAuthOptions.newBuilder(firebaseAuth)
+                                    .setPhoneNumber(number)
+                                    .setActivity(requireActivity())
+                                    .setTimeout(30L, TimeUnit.SECONDS)
+                                    .setCallbacks(it)
+                                    .build()
+                                PhoneAuthProvider.verifyPhoneNumber(options)
+                            }
+//                            updateUiWithUser(currentUser!!)
                         }
                     }
                     is Result.Error -> {
@@ -148,7 +184,8 @@ class RegisterFragment : Fragment() {
             if (text != null) checkForm()
         }
 
-        numberEditText.doOnTextChanged { text, _, _, _ ->
+        binding.phoneNumberEditText.doOnTextChanged { text, _, _, _ ->
+            Log.d("test", "edit text " + text)
             if (text != null) checkForm()
         }
 
@@ -159,12 +196,13 @@ class RegisterFragment : Fragment() {
 
         registerButton.setOnClickListener {
             loadingProgressBar.isVisible = true
-//            number = PhoneNumberUtils.formatNumberToE164(numberEditText.text.toString(), "ID").toString()
-            number = "+1 650-555-1234"
-            firebaseAuth.firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber(
-                number,
-                "123456"
-            )
+            number =
+                PhoneNumberUtils.formatNumberToE164(numberEditText.text.toString(), "ID").toString()
+//            number = "+1 650-555-1234"
+//            firebaseAuth.firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber(
+//                number,
+//                "123456"
+//            )
             authViewModel.register(
                 emailEditText.text.toString(),
                 passwordEditText.text.toString()
@@ -174,12 +212,26 @@ class RegisterFragment : Fragment() {
 
     private fun checkForm() {
         binding.apply {
+            Log.d("test", "check form " + phoneNumberEditText.text.toString())
             authViewModel.checkAuthForm(
                 emailEditText.text.toString(),
                 userNameEditText.text.toString(),
                 phoneNumberEditText.text.toString(),
                 passwordEditText.text.toString()
             )
+        }
+    }
+
+    private fun resendToken(resendToken: ForceResendingToken) {
+        callback?.let {
+            val options = PhoneAuthOptions.newBuilder(firebaseAuth)
+                .setPhoneNumber(number)
+                .setActivity(requireActivity())
+                .setTimeout(30L, TimeUnit.SECONDS)
+                .setCallbacks(it)
+                .setForceResendingToken(resendToken)
+                .build()
+            PhoneAuthProvider.verifyPhoneNumber(options)
         }
     }
 
@@ -198,9 +250,5 @@ class RegisterFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        const val VERIFY_FLAG = "verifyNumber"
     }
 }

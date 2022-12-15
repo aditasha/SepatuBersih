@@ -2,7 +2,6 @@ package com.aditasha.sepatubersih.presentation.driver
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aditasha.sepatubersih.data.RealtimeDatabaseConstants
 import com.aditasha.sepatubersih.data.repository.OrderDriverRepositoryImpl
 import com.aditasha.sepatubersih.domain.model.Result
 import com.aditasha.sepatubersih.domain.model.SbOrder
@@ -24,8 +23,6 @@ class OrderDriverViewModel @Inject constructor(private val orderDriverRepository
 
     val currentUser
         get() = orderDriverRepositoryImpl.currentUser
-
-    var filterOrder = RealtimeDatabaseConstants.QUEUE_FOR_PICKUP
 
     fun updateOrderStatus(sbOrder: SbOrder, node: String, status: String) {
         viewModelScope.launch {

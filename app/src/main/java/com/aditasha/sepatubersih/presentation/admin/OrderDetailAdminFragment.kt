@@ -187,7 +187,7 @@ class OrderDetailAdminFragment : Fragment() {
 
     private fun proofDialog() {
         val inflater = this.layoutInflater
-        val uploadView = inflater.inflate(R.layout.layout_proof_dialog, null)
+        val uploadView = inflater.inflate(R.layout.layout_image_dialog, null)
         val imageView = uploadView.findViewById<ImageView>(R.id.imageView)
 
         GlideApp.with(this)

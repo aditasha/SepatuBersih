@@ -2,6 +2,7 @@ package com.aditasha.sepatubersih.presentation.profile
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.ContentValues
 import android.content.IntentSender
 import android.content.pm.PackageManager
@@ -11,6 +12,7 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -23,11 +25,10 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.aditasha.sepatubersih.BuildConfig
 import com.aditasha.sepatubersih.R
 import com.aditasha.sepatubersih.databinding.FragmentAddAddressBinding
@@ -56,13 +57,14 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class AddAddressFragment : Fragment(), OnMapReadyCallback {
+class AddAddressFragment : DialogFragment(), OnMapReadyCallback {
 
     private var _binding: FragmentAddAddressBinding? = null
 
     private val binding get() = _binding!!
 
-    private val args: AddAddressFragmentArgs by navArgs()
+    //    private val args: AddAddressFragmentArgs by navArgs()
+    private var addressArgs: SbAddress? = null
 
     private val profileViewModel: ProfileViewModel by activityViewModels()
 
@@ -136,20 +138,41 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
                     val intent = result.data
                     if (intent != null) {
                         val status = Autocomplete.getStatusFromIntent(intent)
-                        val snack = Snackbar.make(
-                            requireView(),
-                            status.statusMessage.toString(),
-                            Snackbar.LENGTH_SHORT
-                        )
-                        val params = snack.view.layoutParams as CoordinatorLayout.LayoutParams
-                        params.gravity = Gravity.CENTER_HORIZONTAL or Gravity.TOP
-                        params.setMargins(0, ACTION_BAR_HEIGHT, 0, 0)
-                        snack.view.layoutParams = params
-                        snack.show()
+                        val tv = TypedValue()
+                        var actionBarHeight: Int? = null
+                        if (requireActivity().theme.resolveAttribute(
+                                android.R.attr.actionBarSize,
+                                tv,
+                                true
+                            )
+                        ) {
+                            actionBarHeight = TypedValue.complexToDimensionPixelSize(
+                                tv.data,
+                                resources.displayMetrics
+                            )
+                        }
+                        if (actionBarHeight != null) {
+                            val snack = Snackbar.make(
+                                requireView(),
+                                status.statusMessage.toString(),
+                                Snackbar.LENGTH_LONG
+                            )
+                            val params = snack.view.layoutParams as CoordinatorLayout.LayoutParams
+                            params.gravity = Gravity.CENTER_HORIZONTAL or Gravity.TOP
+                            params.setMargins(0, actionBarHeight, 0, 0)
+                            snack.view.layoutParams = params
+                            snack.setTextMaxLines(10)
+                            snack.show()
+                        }
                     }
                 }
             }
         }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.ThemeOverlay_App_FullScreenDialog)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -159,10 +182,23 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
         return binding.root
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        return dialog
+    }
+
+    @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+        if (arguments != null)
+            addressArgs = requireArguments().getParcelable("address")
+
+        binding.toolbar.setNavigationOnClickListener { dismiss() }
 
         Places.initialize(requireActivity(), BuildConfig.MAPS_API_KEY)
         Places.createClient(requireActivity())
@@ -193,8 +229,8 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
                     notes.ifBlank { "-" },
                     latLng.latitude, latLng.longitude
                 )
-                if (args.address != null) {
-                    address.key = args.address!!.key
+                if (addressArgs != null) {
+                    address.key = addressArgs!!.key
                     profileViewModel.updateAddress(address)
                 } else profileViewModel.addAddress(address)
             }
@@ -219,14 +255,13 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
                 when (result) {
                     is Result.Success -> {
                         binding.loading.isVisible = false
-                        if (args.address != null) {
+                        if (addressArgs != null) {
                             Toast.makeText(
                                 requireActivity(),
                                 getString(R.string.success_update_address),
                                 Toast.LENGTH_SHORT
                             ).show()
-                        }
-                        else {
+                        } else {
                             Toast.makeText(
                                 requireActivity(),
                                 getString(R.string.success_add_address),
@@ -332,7 +367,7 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
             fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 if (location != null) {
                     located = true
-                    val argsAddress = args.address
+                    val argsAddress = addressArgs
                     if (argsAddress != null) {
                         val latLng = LatLng(argsAddress.latitude!!, argsAddress.longitude!!)
                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16F))
@@ -372,15 +407,6 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun showMarker(location: Location) {
-        val latLng = LatLng(location.latitude, location.longitude)
-        map.addMarker(
-            MarkerOptions()
-                .position(latLng)
-        )
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16F))
-    }
-
     private fun showAddress(address: Address) {
         val addressText = address.getAddressLine(0)
         requireActivity().runOnUiThread { binding.addressEditText.setText(addressText) }
@@ -418,7 +444,6 @@ class AddAddressFragment : Fragment(), OnMapReadyCallback {
 
     companion object {
         const val ACTION_BAR_HEIGHT = 168
-        const val META_DATA = "com.google.android.geo.API_KEY"
     }
 
     override fun onDestroyView() {

@@ -1,8 +1,11 @@
 package com.aditasha.sepatubersih
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.PopupMenu
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.WindowCompat
@@ -10,6 +13,7 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import com.aditasha.sepatubersih.databinding.ActivityMainBinding
+import com.aditasha.sepatubersih.presentation.auth.AuthViewModel
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,6 +23,7 @@ class AdminActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
+    private val authViewModel: AuthViewModel by viewModels()
     lateinit var navHostFragment: NavHostFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +44,10 @@ class AdminActivity : AppCompatActivity() {
         navController.graph = graph
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.orderListAdminFragment)
+            setOf(
+                R.id.orderListAdminFragment,
+                R.id.articleFragment
+            )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.appBar.forceLayout()
@@ -77,7 +85,7 @@ class AdminActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.menu_driver_admin, menu)
         return true
     }
 
@@ -86,7 +94,22 @@ class AdminActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_menu_logout -> {
+                val popupMenu = PopupMenu(this, binding.toolbar.findViewById(item.itemId))
+                popupMenu.menuInflater.inflate(R.menu.menu_logout_popup, popupMenu.menu)
+
+                popupMenu.setOnMenuItemClickListener { popup ->
+                    if (popup.itemId == R.id.logout) {
+                        authViewModel.logout()
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                        true
+                    } else false
+                }
+                popupMenu.show()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

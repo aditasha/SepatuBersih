@@ -5,24 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.driver.OrderListDriverFragment">
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/filter"
-        style="@style/Widget.Material3.Button.TextButton.Icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:icon="@drawable/ic_baseline_filter_list_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".presentation.driver.OrderUnassignedListDriverFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/orderListRecycler"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter"
+        android:layout_height="match_parent"
         tools:listitem="@layout/layout_order_item" />
 
     <ProgressBar

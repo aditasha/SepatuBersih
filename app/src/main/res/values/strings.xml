@@ -79,11 +79,18 @@
     <string name="register_failed">"Register failed"</string>
     <string name="logout">Logout</string>
     <string name="not_signed_in_profile">Sign in to access profile</string>
+    <string name="not_signed_in_order_list">Sign in to access order list</string>
+    <string name="not_signed_in_order_form">Sign in to place an order</string>
     <string name="name">Name</string>
     <string name="name_cant_less">Your name cannot be less than 3 character</string>
     <string name="save">Save</string>
     <string name="profile">Profile</string>
     <string name="profile_edit">Profile edit</string>
+    <string name="otp_title">Verification code</string>
+    <string name="otp_sent_number">We have sent verification code to %1$s</string>
+    <string name="otp_resend">Resend</string>
+    <string name="otp_confirm">Confirm</string>
+    <string name="success_update_profile">Success updating profile</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -95,7 +102,6 @@
     <string name="home_welcome">Welcome, %1$s</string>
     <string name="services">Services</string>
     <string name="premium_shoes_cleaning">Premium Shoes Cleaning</string>
-    <string name="article">Article</string>
 
     <string name="address">Address</string>
     <string name="address_name">Address name</string>
@@ -130,9 +136,29 @@
     <string name="name_cant_empty">Name cannot be empty</string>
     <string name="brand_type_cant_empty">Brand and type cannot be empty</string>
     <string name="color_cant_empty">Color cannot be empty</string>
+    <string name="desc_cant_empty">Description cannot be empty</string>
+    <string name="invalid_url">Web URL not valid</string>
 
     <string name="color_placeholder">Color: %1$s</string>
     <string name="notes_placeholder">Notes: %1$s</string>
+
+    <string name="article">Article</string>
+    <string name="article_list">Article list</string>
+    <string name="add_article">Add article</string>
+    <string name="success_add_article">Success adding article</string>
+    <string name="update_article">Update article</string>
+    <string name="success_update_article">Success updating article</string>
+    <string name="article_name">Article name</string>
+    <string name="article_name_helper">Ex: New outlet in Kayutangan</string>
+    <string name="article_desc">Article description</string>
+    <string name="article_desc_helper">Ex: Come by our new outlet</string>
+    <string name="article_link">Article link</string>
+    <string name="article_link_helper">Ex: https://www.sepatubersih.com/post?id=19</string>
+    <string name="article_check_link">Check link</string>
+    <string name="article_add_image">Add image</string>
+    <string name="article_change_image">Change image</string>
+    <string name="article_image">Article image</string>
+    <string name="article_error_image">No image selected for article</string>
 
     <string name="order">Order</string>
     <string name="home">Home</string>
@@ -140,6 +166,8 @@
     <string name="order_detail">Order detail</string>
 
     <string name="order_list">Order list</string>
+    <string name="ongoing_order">Ongoing order</string>
+    <string name="unassigned_order">Unassigned order</string>
     <string name="empty_order_filter">No order data with this filter</string>
     <string name="empty_ongoing">You haven\'t place any order</string>
     <string name="empty_completed">Your completed order is empty</string>
@@ -166,6 +194,7 @@
     <string name="order_id_placeholder">Order %1$s</string>
     <string name="updated_on_placeholder">Updated on %1$s</string>
     <string name="expired_in_placeholder">Expired in: %1$s</string>
+    <string name="how_to_pay_message">1. Screenshot the QRIS code below or download from <b><u>here</u></b>\n\n2. Open your preferred payment platform that supports QRIS\n\n3. Pay the amount listed and add order ID as payment notes</string>
 
     <string name="description">Description</string>
     <string name="price">Price</string>

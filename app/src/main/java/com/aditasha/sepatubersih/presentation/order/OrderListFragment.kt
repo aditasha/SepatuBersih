@@ -25,6 +25,7 @@ import com.aditasha.sepatubersih.domain.model.Result
 import com.aditasha.sepatubersih.domain.model.SbOrderItem
 import com.firebase.ui.database.paging.DatabasePagingOptions
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -54,6 +55,23 @@ class OrderListFragment : Fragment() {
 
     private var childListener: ChildEventListener? = null
 
+    @Inject
+    lateinit var firebaseAuth: FirebaseAuth
+    private val authListener = FirebaseAuth.AuthStateListener {
+        binding.loginLayout.isVisible = currentUser == null
+        binding.root.isRefreshing = false
+    }
+
+    override fun onStart() {
+        super.onStart()
+        firebaseAuth.addAuthStateListener(authListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        firebaseAuth.removeAuthStateListener(authListener)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,6 +84,11 @@ class OrderListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         loadingScreen()
         val orderType = arguments?.getString(FragmentPageAdapter.PAGE)
+
+        binding.login.setOnClickListener {
+            val action = OrderFragmentDirections.actionOrderFragmentToLoginFragment()
+            findNavController().navigate(action)
+        }
 
         if (orderType != null)
             if (currentUser != null) {

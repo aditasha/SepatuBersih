@@ -29,6 +29,8 @@ class ProfileViewModel @Inject constructor(private val profileRepositoryImpl: Pr
     private val _shoesForm = MutableSharedFlow<ShoesFormState>()
     val shoesForm: SharedFlow<ShoesFormState> = _shoesForm
 
+    private val shoesFormState = ShoesFormState()
+
     val currentUser: FirebaseUser?
         get() = profileRepositoryImpl.currentUser
 
@@ -74,12 +76,26 @@ class ProfileViewModel @Inject constructor(private val profileRepositoryImpl: Pr
         }
     }
 
-    fun checkShoesForm(name: String, brandType: String, color: String) {
+    fun checkName(name: String?) {
+        shoesFormState.nameError = name?.isBlank()
+        validateForm()
+    }
+
+    fun checkBrandType(brandType: String?) {
+        shoesFormState.brandTypeError = brandType?.isBlank()
+        validateForm()
+    }
+
+    fun checkColor(color: String?) {
+        shoesFormState.colorError = color?.isBlank()
+        validateForm()
+    }
+
+    private fun validateForm() {
         viewModelScope.launch {
-            val shoesFormState =
-                ShoesFormState(name.isBlank(), brandType.isBlank(), color.isBlank())
             shoesFormState.apply {
-                if (!nameError && !brandTypeError && !colorError) isDataValid = true
+                if (nameError == false && brandTypeError == false && colorError == false) isDataValid =
+                    true
             }
             _shoesForm.emit(shoesFormState)
         }

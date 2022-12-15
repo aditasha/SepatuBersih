@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:fitsSystemWindows="true"
     tools:context=".presentation.profile.AddAddressFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -19,8 +18,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/white"
             app:menu="@menu/menu_maps"
-            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+            app:navigationIcon="@drawable/ic_baseline_close_24"
             app:navigationIconTint="?attr/colorOnSurfaceVariant"
             app:title="@string/address"
             app:titleCentered="true"
@@ -28,9 +28,10 @@
             app:titleTextColor="?attr/colorPrimary" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,11 +43,9 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@id/address"
                 app:layout_constraintHeight_max="300dp"
                 app:layout_constraintHeight_min="250dp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
                 app:layout_constraintVertical_chainStyle="packed"
                 app:navGraph="@navigation/nav_graph" />
 
@@ -76,7 +75,6 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/address"
-                style="@style/Widget.App.TextInputLayout.FilledBox.Padding"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -84,11 +82,9 @@
                 android:layout_marginEnd="24dp"
                 android:enabled="false"
                 android:hint="@string/address"
-                app:layout_constraintBottom_toTopOf="@+id/name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/googleMap"
-                app:layout_constraintVertical_bias="0.05"
                 app:layout_constraintVertical_chainStyle="packed"
                 app:layout_constraintWidth_max="325dp">
 
@@ -104,7 +100,6 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/name"
-                style="@style/Widget.App.TextInputLayout.FilledBox.Padding"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -113,7 +108,6 @@
                 android:hint="@string/address_name"
                 android:inputType="textPersonName"
                 app:helperText="@string/address_name_helper"
-                app:layout_constraintBottom_toTopOf="@+id/notes"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -129,7 +123,6 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/notes"
-                style="@style/Widget.App.TextInputLayout.FilledBox.Padding"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -138,7 +131,6 @@
                 android:hint="@string/address_notes"
                 android:inputType="number"
                 app:helperText="@string/address_notes_helper"
-                app:layout_constraintBottom_toTopOf="@id/addAddress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -154,17 +146,17 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/addAddress"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="72dp"
+                android:layout_marginEnd="72dp"
                 android:layout_marginBottom="16dp"
                 android:enabled="false"
-                android:maxWidth="120dp"
                 android:text="@string/add_address"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/notes" />
+                app:layout_constraintTop_toBottomOf="@+id/notes"
+                app:layout_constraintVertical_bias="1.0"
+                tools:layout_editor_absoluteX="72dp" />
 
             <ProgressBar
                 android:id="@+id/loading"
@@ -185,6 +177,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -8,8 +8,8 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/profileFragment2"
-        android:icon="@drawable/ic_baseline_person_24"
-        android:title="@string/profile"
+        android:id="@+id/articleFragment"
+        android:icon="@drawable/ic_baseline_newspaper_24"
+        android:title="@string/article"
         app:showAsAction="ifRoom" />
 </menu>

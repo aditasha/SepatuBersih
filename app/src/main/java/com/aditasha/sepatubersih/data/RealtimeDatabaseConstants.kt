@@ -9,6 +9,7 @@ object RealtimeDatabaseConstants {
     const val ORDER_DRIVER = "order_driver"
     const val ORDER_DRIVER_ITEM = "order_driver_item"
     const val ORDER_NODE = "order_node"
+    const val ARTICLE = "article"
 
     const val NEED_PAYMENT = "Need payment"
     const val NEED_VERIF = "On verification"

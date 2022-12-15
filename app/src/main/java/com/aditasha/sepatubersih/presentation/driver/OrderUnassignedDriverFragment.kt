@@ -11,7 +11,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OrderDriverFragment : Fragment() {
+class OrderUnassignedDriverFragment : Fragment() {
 
     private var _binding: FragmentOrderBinding? = null
 
@@ -37,8 +37,8 @@ class OrderDriverFragment : Fragment() {
         binding.viewPager2.isUserInputEnabled = false
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.text = when (position) {
-                0 -> getString(R.string.ongoing_list)
-                1 -> getString(R.string.not_assigned_list)
+                0 -> getString(R.string.pickup_order)
+                1 -> getString(R.string.delivery_order)
                 else -> ""
             }
         }.attach()

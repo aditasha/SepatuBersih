@@ -28,7 +28,7 @@ class ProfileFragment : Fragment() {
     private val authListener = FirebaseAuth.AuthStateListener {
         val user = authViewModel.currentUser
         binding.loggedIn.isVisible = user != null
-        binding.anonymous.isVisible = user == null
+        binding.loginLayout.isVisible = user == null
     }
 
     override fun onStart() {

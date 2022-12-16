@@ -14,13 +14,12 @@ class AuthRepositoryImpl @Inject constructor(private val firebaseAuth: FirebaseA
     override val currentUser: FirebaseUser?
         get() = firebaseAuth.currentUser
 
-    override suspend fun register(email: String, password: String): Result<FirebaseUser> {
+    override suspend fun register(email: String, name: String, password: String): Result<FirebaseUser> {
         return try {
             Result.Loading
             val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             val profileBuilder =
-                UserProfileChangeRequest.Builder().setDisplayName(email.substringBefore("@"))
-                    .build()
+                UserProfileChangeRequest.Builder().setDisplayName(name).build()
             result.user!!.updateProfile(profileBuilder).await()
             Result.Success(result.user!!)
         } catch (e: Exception) {

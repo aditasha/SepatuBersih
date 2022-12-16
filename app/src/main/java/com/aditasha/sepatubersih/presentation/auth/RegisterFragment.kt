@@ -205,6 +205,7 @@ class RegisterFragment : Fragment() {
 //            )
             authViewModel.register(
                 emailEditText.text.toString(),
+                userNameEditText.text.toString(),
                 passwordEditText.text.toString()
             )
         }

@@ -40,24 +40,19 @@
   <a href="https://github.com/aditasha/SepatuBersih">
       <img src="screenshots/Halaman home customer.png" alt="Screenshots" width=25% height=25%>
   </a>
-    <a href="https://github.com/aditasha/SepatuBersih">
-      <img src="screenshots/Halaman list pesanan admin.png" alt="Screenshots" width=25% height=25%>
-  </a>
   <a href="https://github.com/aditasha/SepatuBersih">
       <img src="screenshots/Halaman tambah artikel.png" alt="Screenshots" width=25% height=25%>
   </a>
     <a href="https://github.com/aditasha/SepatuBersih">
-      <img src="screenshots/Halaman list pesanan driver.png" alt="Screenshots" width=25% height=25%>
+      <img src="screenshots/Halaman form pemesanan.png" alt="Screenshots" width=25% height=25%>
   </a>
-    <a href="https://github.com/aditasha/SepatuBersih">
+  <a href="https://github.com/aditasha/SepatuBersih">
       <img src="screenshots/Halaman form pemesanan.png" alt="Screenshots" width=25% height=25%>
   </a>
     <a href="https://github.com/aditasha/SepatuBersih">
       <img src="screenshots/Halaman detail customer.png" alt="Screenshots" width=25% height=25%>
   </a>
-  <a href="https://github.com/aditasha/SepatuBersih">
-      <img src="screenshots/Halaman form pemesanan.png" alt="Screenshots" width=25% height=25%>
-  </a>
+  <br />
   <a href="https://github.com/aditasha/SepatuBersih">
       <img src="screenshots/Halaman tambah alamat.png" alt="Screenshots" width=25% height=25%>
   </a>

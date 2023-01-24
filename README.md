@@ -17,7 +17,6 @@
 # SepatuBersih
 
 <!-- PROJECT LOGO -->
-<br />
 <div align="center">
 <!--   <a href="https://github.com/aditasha/SepatuBersih">
     <img src="resources/image_dicoding.webp" alt="Logo" width=40% height=40%>
@@ -25,10 +24,11 @@
 
   <p align="center">
     An application for Sepatu Bersih, a shoe care service company, which provide a shoe-washing pickup and delivery services with accounts for customer, driver and shopkeeper
+      <br />
+      <br />
     <a href="https://github.com/aditasha/SepatuBersih/issues">Report Bug</a>
     ·
     <a href="https://github.com/aditasha/SepatuBersih/issues">Request Feature</a>
-    <br />
   </p>
 </div>
 

@@ -3,7 +3,7 @@ package com.aditasha.sepatubersih.presentation.profile
 import android.os.Parcelable
 
 interface ProfileOnClickCallback {
-    fun onDeleteClicked(key: String)
+    fun onDeleteClicked(key: String, name: String)
     fun onEditClicked(data: Parcelable)
     fun onOrderClicked(data: Parcelable)
     fun onDataChanged()

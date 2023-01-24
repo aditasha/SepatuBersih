@@ -40,7 +40,7 @@ class FirebaseShoesAdapter(options: FirebaseRecyclerOptions<SbShoes>) :
                 color.text = itemView.resources.getString(R.string.color_placeholder, data.color)
                 notes.text = itemView.resources.getString(R.string.notes_placeholder, data.notes)
                 iconEdit.setOnClickListener { profileOnClickCallback.onEditClicked(data) }
-                iconDelete.setOnClickListener { profileOnClickCallback.onDeleteClicked(data.key!!) }
+                iconDelete.setOnClickListener { profileOnClickCallback.onDeleteClicked(data.key!!, data.name!!) }
                 binding.root.setOnClickListener { profileOnClickCallback.onOrderClicked(data) }
             }
         }

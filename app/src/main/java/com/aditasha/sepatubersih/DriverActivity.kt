@@ -69,6 +69,9 @@ class DriverActivity : AppCompatActivity() {
                 binding.navHostFragmentContentMain.layoutParams as CoordinatorLayout.LayoutParams
             binding.apply {
                 when (destination.id) {
+                    R.id.orderDetailDriverFragment -> {
+                        navigation.isVisible = false
+                    }
                     else -> {
                         appBar.isVisible = true
                         navigation.isVisible = true

@@ -92,7 +92,7 @@
     </style>
 
     <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="colorPrimary">?attr/colorOnPrimary</item>
+<!--        <item name="colorPrimary">?attr/colorOnPrimary</item>-->
     </style>
 
     <style name="ThemeOverlay.App.FullScreenDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">

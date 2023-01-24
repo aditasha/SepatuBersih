@@ -178,7 +178,7 @@ class OrderAdminRepositoryImpl @Inject constructor(
             val articleRef = firebaseDatabase.reference.child(RealtimeDatabaseConstants.ARTICLE)
                 .child(key)
             val storageRef = firebaseStorage.reference.child(RealtimeDatabaseConstants.ARTICLE)
-                .child(key)
+                .child(key + ".jpg")
 
             storageRef.delete().await()
             articleRef.setValue(null).await()

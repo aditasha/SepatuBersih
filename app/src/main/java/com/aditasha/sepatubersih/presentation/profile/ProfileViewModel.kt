@@ -29,7 +29,7 @@ class ProfileViewModel @Inject constructor(private val profileRepositoryImpl: Pr
     private val _shoesForm = MutableSharedFlow<ShoesFormState>()
     val shoesForm: SharedFlow<ShoesFormState> = _shoesForm
 
-    private val shoesFormState = ShoesFormState()
+    private var shoesFormState = ShoesFormState()
 
     val currentUser: FirebaseUser?
         get() = profileRepositoryImpl.currentUser
@@ -74,6 +74,10 @@ class ProfileViewModel @Inject constructor(private val profileRepositoryImpl: Pr
         viewModelScope.launch {
             _shoesResult.emit(profileRepositoryImpl.updateShoes(data))
         }
+    }
+
+    fun newShoesFormState() {
+        shoesFormState = ShoesFormState()
     }
 
     fun checkName(name: String?) {

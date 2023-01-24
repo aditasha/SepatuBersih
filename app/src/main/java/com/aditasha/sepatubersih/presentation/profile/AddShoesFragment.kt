@@ -116,7 +116,7 @@ class AddShoesFragment : DialogFragment() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
-                            findNavController().navigateUp()
+                            dismiss()
                         }
                         is Result.Error -> {
                             loading.isVisible = false

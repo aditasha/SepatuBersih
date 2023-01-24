@@ -30,7 +30,7 @@ class OrderAdminViewModel @Inject constructor(private val orderAdminRepositoryIm
     private val _articleForm = MutableSharedFlow<ArticleFormState>()
     val articleForm: SharedFlow<ArticleFormState> = _articleForm
 
-    private val articleFormState = ArticleFormState()
+    private var articleFormState = ArticleFormState()
 
     fun updateOrderStatus(sbOrder: SbOrder, node: String, status: String) {
         viewModelScope.launch {
@@ -54,6 +54,10 @@ class OrderAdminViewModel @Inject constructor(private val orderAdminRepositoryIm
         viewModelScope.launch {
             orderAdminRepositoryImpl.deleteArticle(key)
         }
+    }
+
+    fun newFormState() {
+        articleFormState = ArticleFormState()
     }
 
     fun checkName(name: String?) {
@@ -80,7 +84,7 @@ class OrderAdminViewModel @Inject constructor(private val orderAdminRepositoryIm
     private fun formValidator() {
         viewModelScope.launch {
             articleFormState.apply {
-                if (nameError != true && descError != true && linkError != true && imageError != true) isDataValid =
+                if (nameError == false && descError == false && linkError == false && imageError == false) isDataValid =
                     true
             }
             _articleForm.emit(articleFormState)

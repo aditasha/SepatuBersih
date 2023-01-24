@@ -1,6 +1,5 @@
 package com.aditasha.sepatubersih.presentation.auth
 
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -51,7 +50,6 @@ class AuthViewModel @Inject constructor(private val authRepositoryImpl: AuthRepo
         password: String
     ) {
         viewModelScope.launch {
-            Log.d("test", "name " + name.toString())
             val emailError = emailError(email)
             val nameError = if (name != null) nameError(name) else null
             val numberError = if (number != null) numberError(number) else null
@@ -88,14 +86,12 @@ class AuthViewModel @Inject constructor(private val authRepositoryImpl: AuthRepo
     }
 
     private fun nameError(name: String): Boolean? {
-        Log.d("test", "name " + name + "length " + name.length)
         return if (name.isBlank()) null
         else name.length < 3
     }
 
     private fun numberError(number: String): Boolean? {
         val a = !Patterns.PHONE.matcher(number).matches()
-        Log.d("test", "result " + a + " " + number)
         return if (number.isBlank()) null
         else !Patterns.PHONE.matcher(number).matches()
     }

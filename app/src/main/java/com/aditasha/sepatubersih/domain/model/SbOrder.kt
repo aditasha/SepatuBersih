@@ -19,7 +19,6 @@ data class SbOrder(
     var endTimestamp: Long? = null,
     var price: Double? = null,
     var proof: String? = null,
-    var driver: String? = null
 ) : Parcelable {
 
     fun toMap(): Map<String, Any?> {

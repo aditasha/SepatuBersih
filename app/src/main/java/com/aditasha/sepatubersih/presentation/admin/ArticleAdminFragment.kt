@@ -14,10 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.aditasha.sepatubersih.R
 import com.aditasha.sepatubersih.data.RealtimeDatabaseConstants
 import com.aditasha.sepatubersih.databinding.FragmentArticleAdminBinding
 import com.aditasha.sepatubersih.domain.model.SbArticle
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
@@ -81,8 +83,8 @@ class ArticleAdminFragment : Fragment() {
                 addArticle.show(childFragmentManager, "article")
             }
 
-            override fun onArticleDelete(key: String) {
-                adminViewModel.deleteArticle(key)
+            override fun onArticleDelete(key: String, name: String) {
+                deleteDialog(key, name)
             }
 
             override fun onDataChanged() {
@@ -96,6 +98,19 @@ class ArticleAdminFragment : Fragment() {
                 AddArticleFragment().show(childFragmentManager, "article")
             }
         }
+    }
+
+    private fun deleteDialog(key: String, name: String) {
+        MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
+            .setTitle(getString(R.string.article_delete))
+            .setMessage(getString(R.string.article_delete_confirmation, name))
+            .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
+                adminViewModel.deleteArticle(key)
+                dialog.dismiss()
+            }
+            .setNegativeButton(getString(R.string.no)) { dialog, _ ->
+                dialog.dismiss()
+            }.show()
     }
 
     override fun onResume() {

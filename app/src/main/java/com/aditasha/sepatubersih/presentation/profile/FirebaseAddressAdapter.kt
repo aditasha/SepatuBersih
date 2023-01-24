@@ -39,7 +39,7 @@ class FirebaseAddressAdapter(options: FirebaseRecyclerOptions<SbAddress>) :
                 address.text = data.address
                 addressNotes.text = itemView.resources.getString(R.string.notes_placeholder, data.note)
                 iconEdit.setOnClickListener { profileOnClickCallback.onEditClicked(data) }
-                iconDelete.setOnClickListener { profileOnClickCallback.onDeleteClicked(data.key!!) }
+                iconDelete.setOnClickListener { profileOnClickCallback.onDeleteClicked(data.key!!, data.name!!) }
                 binding.root.setOnClickListener { profileOnClickCallback.onOrderClicked(data) }
             }
         }

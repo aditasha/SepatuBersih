@@ -89,7 +89,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/paymentTimer"
-                    style="?attr/textAppearanceBody2"
+                    style="?attr/textAppearanceBodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginTop="8dp"
@@ -144,10 +144,11 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/address"
-                    style="?attr/textAppearanceBody2"
+                    style="?attr/textAppearanceBodyMedium"
+                    android:textSize="13sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="8dp"
                     app:fontFamily="@font/work_sans"
                     tools:text="Jl.Kukusan Raya" />
 
@@ -156,7 +157,7 @@
                     style="?attr/textAppearanceCaption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="8dp"
                     app:fontFamily="@font/work_sans"
                     tools:text="Dekat belokan" />
 
@@ -197,6 +198,7 @@
                     android:id="@+id/recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
                     tools:itemCount="5"
                     tools:listitem="@layout/layout_shoes_simple" />
 
@@ -267,42 +269,44 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/pickupButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_weight="1"
-                        android:text="@string/detail_self_pickup"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/delivButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_weight="1"
-                        android:text="@string/detail_deliver_to_address"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            app:layout_constraintTop_toBottomOf="@id/shoesCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/pickupButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                android:text="@string/detail_self_pickup"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/delivButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                android:text="@string/detail_deliver_to_address"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <!--        <com.google.android.material.card.MaterialCardView-->
         <!--            android:id="@+id/totalCard"-->

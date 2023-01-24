@@ -19,7 +19,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/white"
+            android:background="?attr/colorSurface"
             app:title="@string/otp_title"
             app:titleCentered="true"
             app:titleTextAppearance="@style/TextAppearance.App.Headline6"

@@ -100,9 +100,8 @@ class OrderDetailDriverFragment : Fragment() {
                         order.status == RealtimeDatabaseConstants.QUEUE_FOR_PICKUP || order.status == RealtimeDatabaseConstants.QUEUE_FOR_DELIV
                     val onOrder =
                         order.status == RealtimeDatabaseConstants.PICKUP || order.status == RealtimeDatabaseConstants.DELIV
-                    val onStore = order.status == RealtimeDatabaseConstants.ARRIVED_STORE
                     finishButton.isVisible = onOrder
-                    updateButton.isVisible = !onStore
+                    updateButton.isVisible = queue || onOrder
                     updateButton.text =
                         if (queue) getString(R.string.take_order) else getString(R.string.finish_order)
 

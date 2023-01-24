@@ -26,7 +26,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "REALTIME", "\"" + localProperties['realtime'] + "\"")
-        buildConfigField("String", "MAPS_API_KEY", "\"" + localProperties['api_key'] + "\"")
+        buildConfigField("String", "MAPS_API_KEY", "\"" + localProperties['maps_api_key'] + "\"")
     }
 
     buildTypes {

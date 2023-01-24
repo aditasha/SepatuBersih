@@ -45,7 +45,7 @@ class FirebaseOrderAdminAdapter(options: FirebaseRecyclerOptions<SbOrderItem>) :
             val timestamp = sfd.format(date)
             binding.apply {
                 val format = DecimalFormat("0.000")
-                val text = "Rp. " + resource.getString(
+                val text = resource.getString(
                     R.string.price_placeholder,
                     format.format(data.price)
                 )

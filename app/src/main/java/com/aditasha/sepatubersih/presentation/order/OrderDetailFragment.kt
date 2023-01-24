@@ -22,6 +22,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.aditasha.sepatubersih.R
 import com.aditasha.sepatubersih.ServerTime
 import com.aditasha.sepatubersih.data.RealtimeDatabaseConstants
@@ -50,7 +51,7 @@ import javax.inject.Inject
 
 @BuildCompat.PrereleaseSdkCheck
 @AndroidEntryPoint
-class OrderDetailFragment : Fragment() {
+class   OrderDetailFragment : Fragment() {
     private var _binding: FragmentOrderDetailBinding? = null
 
     private val binding get() = _binding!!
@@ -294,7 +295,7 @@ class OrderDetailFragment : Fragment() {
             .load(uri)
             .into(imageView)
 
-        MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
+        MaterialAlertDialogBuilder(requireContext())
             .setView(uploadView)
             .setTitle(getString(R.string.proof_of_payment))
             .setMessage(getString(R.string.want_to_upload_proof))
@@ -354,9 +355,18 @@ class OrderDetailFragment : Fragment() {
                     val inflater = this@OrderDetailFragment.layoutInflater
                     val howToView = inflater.inflate(R.layout.layout_how_to_pay_dialog, null)
                     val imageView = howToView.findViewById<ImageView>(R.id.imageView)
+
+                    val circularProgressDrawable = CircularProgressDrawable(requireContext())
+                    circularProgressDrawable.setColorSchemeColors(android.R.attr.colorPrimary)
+                    circularProgressDrawable.strokeWidth = 5f
+                    circularProgressDrawable.centerRadius = 15f
+                    circularProgressDrawable.start()
+
                     GlideApp.with(this@OrderDetailFragment)
                         .load(ref)
+//                        .placeholder(circularProgressDrawable)
                         .into(imageView)
+
                     val textView = howToView.findViewById<TextView>(R.id.messageDialog)
                     val title = getString(R.string.detail_how_to_pay)
                     textView.text = setMessageWithQrisLink(url)

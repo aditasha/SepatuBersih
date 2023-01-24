@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">Sepatu Bersih</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name" translatable="false">Sepatu Bersih</string>
+<!--    <string name="action_settings">Settings</string>-->
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+<!--    <string name="first_fragment_label">First Fragment</string>-->
+<!--    <string name="second_fragment_label">Second Fragment</string>-->
+<!--    <string name="next">Next</string>-->
+<!--    <string name="previous">Previous</string>-->
 
-    <string name="lorem_ipsum">
+    <string name="lorem_ipsum" translatable="false">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
         dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
@@ -28,7 +28,7 @@
         in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
         est.
     </string>
-    <string name="lorem_ipsum_backup">
+    <string name="lorem_ipsum_backup" translatable="false">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
         dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
@@ -65,7 +65,7 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <!-- Strings related to login -->
-    <string name="email">Email</string>
+    <string name="email" translatable="false">Email</string>
     <string name="phone_number">Phone number</string>
     <string name="prompt_password">Password</string>
     <string name="action_register">Register</string>
@@ -92,8 +92,6 @@
     <string name="otp_confirm">Confirm</string>
     <string name="success_update_profile">Success updating profile</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- Order list -->
     <string name="ongoing_list">Ongoing</string>
     <string name="completed_list">Complete</string>
@@ -101,7 +99,7 @@
 
     <string name="home_welcome">Welcome, %1$s</string>
     <string name="services">Services</string>
-    <string name="premium_shoes_cleaning">Premium Shoes Cleaning</string>
+    <string name="premium_shoes_cleaning" translatable="false">Premium Shoes Cleaning</string>
 
     <string name="address">Address</string>
     <string name="address_name">Address name</string>
@@ -115,6 +113,8 @@
     <string name="choose_address">Choose pickup/delivery address</string>
     <string name="registered_address">Registered address</string>
     <string name="saved_address_empty">Your saved address is empty, please add one first</string>
+    <string name="address_delete">Delete address</string>
+    <string name="address_delete_confirmation">Do you want to delete %1$s?</string>
 
     <string name="shoes">Shoes</string>
     <string name="shoes_name">Shoes name</string>
@@ -132,6 +132,8 @@
     <string name="add_shoes_wash">Add shoes to wash</string>
     <string name="registered_shoes">Registered shoes</string>
     <string name="saved_shoes_empty">Your saved shoes is empty, please add one first</string>
+    <string name="shoes_delete">Delete shoes</string>
+    <string name="shoes_delete_confirmation">Do you want to delete %1$s?</string>
 
     <string name="name_cant_empty">Name cannot be empty</string>
     <string name="brand_type_cant_empty">Brand and type cannot be empty</string>
@@ -158,10 +160,13 @@
     <string name="article_add_image">Add image</string>
     <string name="article_change_image">Change image</string>
     <string name="article_image">Article image</string>
+    <string name="article_delete">Delete article</string>
+    <string name="article_delete_confirmation">Do you want to delete %1$s article?</string>
     <string name="article_error_image">No image selected for article</string>
 
     <string name="order">Order</string>
-    <string name="home">Home</string>
+    <string name="order_service">Order</string>
+    <string name="home" translatable="false">Home</string>
     <string name="order_form">Order form</string>
     <string name="order_detail">Order detail</string>
 
@@ -173,9 +178,9 @@
     <string name="empty_completed">Your completed order is empty</string>
     <string name="order_filter">Order filter</string>
 
-    <string name="detail_status">Status :</string>
+    <string name="detail_status" translatable="false">Status :</string>
     <string name="detail_order_summary">Order summary</string>
-    <string name="detail_grand_total">Grand total</string>
+    <string name="detail_grand_total" translatable="false">Grand total</string>
     <string name="detail_upload_proof">Upload proof of payment</string>
     <string name="detail_how_to_pay">How to pay</string>
     <string name="detail_self_pickup">Self pickup</string>
@@ -191,15 +196,16 @@
     <string name="need_proof">"Need proof of payment, please upload before timer ends"</string>
     <string name="cancel_order">Cancel order</string>
     <string name="update_status">Update status</string>
-    <string name="order_id_placeholder">Order %1$s</string>
+    <string name="order_id_placeholder" translatable="false">Order %1$s</string>
     <string name="updated_on_placeholder">Updated on %1$s</string>
     <string name="expired_in_placeholder">Expired in: %1$s</string>
-    <string name="how_to_pay_message">1. Screenshot the QRIS code below or download from <b><u>here</u></b>\n\n2. Open your preferred payment platform that supports QRIS\n\n3. Pay the amount listed and add order ID as payment notes</string>
+    <string name="how_to_pay_message">1. Screenshot the QRIS code below or download from here\n\n2. Open your preferred payment platform that supports QRIS\n\n3. Pay the amount listed and add order ID as payment notes</string>
 
     <string name="description">Description</string>
     <string name="price">Price</string>
-    <string name="price_placeholder">Rp. %1$s</string>
+    <string name="price_placeholder" translatable="false">Rp. %1$s</string>
     <string name="start_from">Start from Rp. 50.000</string>
+    <string name="shoes_cleaning">Sepatu Bersih only use the highest quality cleaning products and techniques to ensure that your shoes come out looking like new. With our in-house Ozone Sterilization machine to remove bacteria, we provide the highest level of hygiene for your shoes.\n\nOur team of experienced professionals is dedicated to providing the best possible care for your shoes, and we take pride in the results we achieve.\n\nWith convenient free pickup and delivery options for Malang city area, it\'s never been easier to give your shoes the treatment they deserve.</string>
 
     <string name="logout_menu">Logout menu</string>
     <string name="need_verification">Need verification</string>
@@ -208,8 +214,10 @@
     <string name="pickup_process">Pickup process</string>
     <string name="arrived_on_store">Arrived on store</string>
     <string name="washing">Washing</string>
+    <string name="finish_washing">Finish washing</string>
     <string name="delivery_queue">Delivery queue</string>
     <string name="delivery_process">Delivery process</string>
+    <string name="customer_pickup">Customer self pickup</string>
     <string name="complete">Complete</string>
     <string name="canceled">Canceled</string>
     <string name="pickup_order">Pickup order</string>
@@ -235,6 +243,6 @@
     <string name="status_to_complete">Update order status to complete?</string>
     <string name="status_cancel_order">Cancel this order?</string>
 
-    <string name="wa_uri_string">https://wa.me/%1$s</string>
-    <string name="maps_uri_string">http://maps.google.com/maps?q=loc:%1$s,%2$s (%3$s)</string>
+    <string name="wa_uri_string" translatable="false">https://wa.me/%1$s</string>
+    <string name="maps_uri_string" translatable="false">http://maps.google.com/maps?q=loc:%1$s,%2$s (%3$s)</string>
 </resources>

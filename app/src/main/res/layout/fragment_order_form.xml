@@ -103,34 +103,6 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/loginLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/loginText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/not_signed_in_order_form" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="48dp"
-                    android:layout_marginBottom="64dp"
-                    android:text="@string/action_sign_in_short" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -139,7 +111,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/white"
+        android:background="?attr/colorSurface"
         android:elevation="8dp"
         android:padding="16dp">
 
@@ -169,9 +141,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="@string/order"
+            android:text="@string/order_service"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/loginLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/loginText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/not_signed_in_order_form" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_sign_in_short" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </RelativeLayout>

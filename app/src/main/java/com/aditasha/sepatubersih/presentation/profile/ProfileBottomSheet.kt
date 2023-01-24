@@ -21,6 +21,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
@@ -87,9 +88,8 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
         firebaseAddressAdapter = addressAdapter
 
         addressAdapter.setOnClickCallback(object : ProfileOnClickCallback {
-            override fun onDeleteClicked(key: String) {
-                binding.loading.isVisible = true
-                profileViewModel.deleteAddress(key)
+            override fun onDeleteClicked(key: String, name: String) {
+                deleteDialog(key, name, true)
             }
 
             override fun onEditClicked(data: Parcelable) {
@@ -141,6 +141,7 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun shoesList() {
+        profileViewModel.newShoesFormState()
         val reference = firebaseDatabase.reference.child(RealtimeDatabaseConstants.SHOES)
             .child(currentUser!!.uid)
 
@@ -153,9 +154,8 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
         firebaseShoesAdapter = shoesAdapter
 
         shoesAdapter.setOnClickCallback(object : ProfileOnClickCallback {
-            override fun onDeleteClicked(key: String) {
-                binding.loading.isVisible = true
-                profileViewModel.deleteShoes(key)
+            override fun onDeleteClicked(key: String, name: String) {
+                deleteDialog(key, name, false)
             }
 
             override fun onEditClicked(data: Parcelable) {
@@ -202,6 +202,23 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
 
             emptyText.text = getString(R.string.saved_shoes_empty)
         }
+    }
+
+    private fun deleteDialog(key: String, name: String, isAddress: Boolean) {
+        val title = if (isAddress) getString(R.string.address_delete) else getString(R.string.shoes_delete)
+        val message = if (isAddress) getString(R.string.address_delete_confirmation, name) else getString(R.string.shoes_delete_confirmation, name)
+        MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
+                if (isAddress) profileViewModel.deleteAddress(key)
+                else profileViewModel.deleteShoes(key)
+                binding.loading.isVisible = true
+                dialog.dismiss()
+            }
+            .setNegativeButton(getString(R.string.no)) { dialog, _ ->
+                dialog.dismiss()
+            }.show()
     }
 
     override fun onResume() {

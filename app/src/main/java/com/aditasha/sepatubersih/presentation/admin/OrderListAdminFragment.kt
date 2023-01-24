@@ -90,7 +90,7 @@ class OrderListAdminFragment : Fragment() {
                             R.id.pickup_queue -> {
                                 orderAdminViewModel.filterOrder =
                                     RealtimeDatabaseConstants.QUEUE_FOR_PICKUP
-                                binding.toolbar.title = RealtimeDatabaseConstants.QUEUE_FOR_PICKUP
+                                binding.toolbar.title = getString(R.string.pickup_queue)
                                 query =
                                     orderQuery.equalTo(RealtimeDatabaseConstants.QUEUE_FOR_PICKUP)
                                         .limitToFirst(15)
@@ -99,7 +99,7 @@ class OrderListAdminFragment : Fragment() {
                             }
                             R.id.pickup_process -> {
                                 orderAdminViewModel.filterOrder = RealtimeDatabaseConstants.PICKUP
-                                binding.toolbar.title = RealtimeDatabaseConstants.PICKUP
+                                binding.toolbar.title = getString(R.string.pickup_process)
                                 query =
                                     orderQuery.equalTo(RealtimeDatabaseConstants.PICKUP)
                                         .limitToFirst(15)
@@ -109,7 +109,7 @@ class OrderListAdminFragment : Fragment() {
                             R.id.arrived_store -> {
                                 orderAdminViewModel.filterOrder =
                                     RealtimeDatabaseConstants.ARRIVED_STORE
-                                binding.toolbar.title = RealtimeDatabaseConstants.ARRIVED_STORE
+                                binding.toolbar.title = getString(R.string.arrived_on_store)
                                 query =
                                     orderQuery.equalTo(RealtimeDatabaseConstants.ARRIVED_STORE)
                                         .limitToFirst(15)
@@ -118,9 +118,18 @@ class OrderListAdminFragment : Fragment() {
                             }
                             R.id.washing -> {
                                 orderAdminViewModel.filterOrder = RealtimeDatabaseConstants.WASHING
-                                binding.toolbar.title = RealtimeDatabaseConstants.WASHING
+                                binding.toolbar.title = getString(R.string.washing)
                                 query =
                                     orderQuery.equalTo(RealtimeDatabaseConstants.WASHING)
+                                        .limitToFirst(15)
+                                updateOptions(query)
+                                true
+                            }
+                            R.id.finish_washing -> {
+                                orderAdminViewModel.filterOrder = RealtimeDatabaseConstants.FINISH_WASHING
+                                binding.toolbar.title = getString(R.string.finish_washing)
+                                query =
+                                    orderQuery.equalTo(RealtimeDatabaseConstants.FINISH_WASHING)
                                         .limitToFirst(15)
                                 updateOptions(query)
                                 true
@@ -128,7 +137,7 @@ class OrderListAdminFragment : Fragment() {
                             R.id.delivery_queue -> {
                                 orderAdminViewModel.filterOrder =
                                     RealtimeDatabaseConstants.QUEUE_FOR_DELIV
-                                binding.toolbar.title = RealtimeDatabaseConstants.QUEUE_FOR_DELIV
+                                binding.toolbar.title = getString(R.string.delivery_queue)
                                 query =
                                     orderQuery.equalTo(RealtimeDatabaseConstants.QUEUE_FOR_DELIV)
                                         .limitToFirst(15)
@@ -137,8 +146,16 @@ class OrderListAdminFragment : Fragment() {
                             }
                             R.id.delivery_process -> {
                                 orderAdminViewModel.filterOrder = RealtimeDatabaseConstants.DELIV
-                                binding.toolbar.title = RealtimeDatabaseConstants.DELIV
+                                binding.toolbar.title = getString(R.string.delivery_process)
                                 query = orderQuery.equalTo(RealtimeDatabaseConstants.DELIV)
+                                    .limitToFirst(15)
+                                updateOptions(query)
+                                true
+                            }
+                            R.id.customer_pickup -> {
+                                orderAdminViewModel.filterOrder = RealtimeDatabaseConstants.CUSTOMER_PICKUP
+                                binding.toolbar.title = getString(R.string.customer_pickup)
+                                query = orderQuery.equalTo(RealtimeDatabaseConstants.CUSTOMER_PICKUP)
                                     .limitToFirst(15)
                                 updateOptions(query)
                                 true
@@ -146,7 +163,7 @@ class OrderListAdminFragment : Fragment() {
                             R.id.complete -> {
                                 orderAdminViewModel.filterOrder =
                                     RealtimeDatabaseConstants.STATUS_COMPLETE
-                                binding.toolbar.title = RealtimeDatabaseConstants.STATUS_COMPLETE
+                                binding.toolbar.title = getString(R.string.complete)
                                 query =
                                     orderQuery.equalTo(RealtimeDatabaseConstants.STATUS_COMPLETE)
                                         .limitToFirst(15)
@@ -156,7 +173,7 @@ class OrderListAdminFragment : Fragment() {
                             R.id.canceled -> {
                                 orderAdminViewModel.filterOrder =
                                     RealtimeDatabaseConstants.CANCELLED
-                                binding.toolbar.title = RealtimeDatabaseConstants.CANCELLED
+                                binding.toolbar.title = getString(R.string.canceled)
                                 query =
                                     orderQuery.equalTo(RealtimeDatabaseConstants.CANCELLED)
                                         .limitToFirst(15)

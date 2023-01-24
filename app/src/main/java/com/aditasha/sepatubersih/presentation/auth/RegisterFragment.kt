@@ -2,7 +2,6 @@ package com.aditasha.sepatubersih.presentation.auth
 
 import android.os.Bundle
 import android.telephony.PhoneNumberUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -185,7 +184,6 @@ class RegisterFragment : Fragment() {
         }
 
         binding.phoneNumberEditText.doOnTextChanged { text, _, _, _ ->
-            Log.d("test", "edit text " + text)
             if (text != null) checkForm()
         }
 
@@ -213,7 +211,6 @@ class RegisterFragment : Fragment() {
 
     private fun checkForm() {
         binding.apply {
-            Log.d("test", "check form " + phoneNumberEditText.text.toString())
             authViewModel.checkAuthForm(
                 emailEditText.text.toString(),
                 userNameEditText.text.toString(),

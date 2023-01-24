@@ -71,7 +71,13 @@ class AdminActivity : AppCompatActivity() {
                 when (destination.id) {
                     R.id.orderListAdminFragment -> {
                         appBar.isVisible = false
+                        navigation.isVisible = true
                         param.behavior = null
+                    }
+                    R.id.orderDetailAdminFragment -> {
+                        appBar.isVisible = true
+                        navigation.isVisible = false
+                        param.behavior = AppBarLayout.ScrollingViewBehavior()
                     }
                     else -> {
                         appBar.isVisible = true

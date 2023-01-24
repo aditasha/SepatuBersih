@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.aditasha.sepatubersih.R
 import com.aditasha.sepatubersih.ServerTime
 import com.aditasha.sepatubersih.data.RealtimeDatabaseConstants
@@ -190,8 +191,15 @@ class OrderDetailAdminFragment : Fragment() {
         val uploadView = inflater.inflate(R.layout.layout_image_dialog, null)
         val imageView = uploadView.findViewById<ImageView>(R.id.imageView)
 
+        val circularProgressDrawable = CircularProgressDrawable(requireContext())
+        circularProgressDrawable.setColorSchemeColors(android.R.attr.colorPrimary)
+        circularProgressDrawable.strokeWidth = 5f
+        circularProgressDrawable.centerRadius = 15f
+        circularProgressDrawable.start()
+
         GlideApp.with(this)
             .load(proofRef)
+//            .placeholder(circularProgressDrawable)
             .into(imageView)
 
         MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)

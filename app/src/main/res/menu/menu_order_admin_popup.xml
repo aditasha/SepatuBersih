@@ -21,12 +21,20 @@
         android:title="@string/washing" />
 
     <item
+        android:id="@+id/finish_washing"
+        android:title="@string/finish_washing" />
+
+    <item
         android:id="@+id/delivery_queue"
         android:title="@string/delivery_queue" />
 
     <item
         android:id="@+id/delivery_process"
         android:title="@string/delivery_process" />
+
+    <item
+        android:id="@+id/customer_pickup"
+        android:title="@string/customer_pickup"/>
 
     <item
         android:id="@+id/complete"

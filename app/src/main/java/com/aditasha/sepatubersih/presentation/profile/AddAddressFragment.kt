@@ -206,7 +206,13 @@ class AddAddressFragment : DialogFragment(), OnMapReadyCallback {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         geocoder = Geocoder(requireActivity())
         val mapFragment =
-            childFragmentManager.findFragmentById(R.id.googleMap) as SupportMapFragment
+            childFragmentManager.findFragmentById(R.id.googleMap) as MySupportMapFragment
+        mapFragment.setListener(object: MySupportMapFragment.OnTouchListener {
+            override fun onTouch() {
+                binding.nestedScroll.requestDisallowInterceptTouchEvent(true)
+            }
+
+        })
         mapFragment.getMapAsync(this)
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
@@ -268,7 +274,7 @@ class AddAddressFragment : DialogFragment(), OnMapReadyCallback {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-                        findNavController().navigateUp()
+                        dismiss()
                     }
                     is Result.Error -> {
                         binding.loading.isVisible = false
@@ -294,6 +300,11 @@ class AddAddressFragment : DialogFragment(), OnMapReadyCallback {
     @Suppress("DEPRECATION")
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        map.uiSettings.apply {
+            isZoomControlsEnabled = true
+            isMapToolbarEnabled = true
+            isMyLocationButtonEnabled = true
+        }
         createLocationRequest()
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -302,12 +313,7 @@ class AddAddressFragment : DialogFragment(), OnMapReadyCallback {
             }
         }
 
-        map.setOnCameraMoveStartedListener {
-            binding.root.requestDisallowInterceptTouchEvent(true)
-        }
-
         map.setOnCameraIdleListener {
-            binding.root.requestDisallowInterceptTouchEvent(false)
 
             if (located) {
                 val latLng = map.cameraPosition.target
@@ -331,7 +337,6 @@ class AddAddressFragment : DialogFragment(), OnMapReadyCallback {
     private fun createLocationRequest() {
         val locationRequest =
             LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(1))
-                .setWaitForAccurateLocation(true)
                 .build()
         val builder = LocationSettingsRequest.Builder()
             .addLocationRequest(locationRequest)
@@ -382,6 +387,15 @@ class AddAddressFragment : DialogFragment(), OnMapReadyCallback {
                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16F))
                     }
                 } else {
+                    val locationRequest =
+                        LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(1))
+                            .build()
+                    val locationCallback = object : LocationCallback() {
+                        override fun onLocationResult(location: LocationResult) {
+                            getMyLastLocation()
+                        }
+                    }
+                    fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
                     located = false
                     Toast.makeText(
                         requireActivity(),

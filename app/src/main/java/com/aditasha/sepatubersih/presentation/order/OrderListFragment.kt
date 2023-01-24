@@ -319,7 +319,7 @@ class OrderListFragment : Fragment() {
             emptyText.isVisible = false
             val date = Date().time
             val sfd = SimpleDateFormat("dd MMMM yyyy, HH:mm")
-            val text = "Updated on " + sfd.format(date)
+            val text = getString(R.string.updated_on_placeholder, sfd.format(date))
             updateTime.text = text
             root.isRefreshing = false
         }

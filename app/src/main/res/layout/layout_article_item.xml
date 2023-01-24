@@ -15,8 +15,8 @@
             android:id="@+id/articlesImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            app:layout_constraintHeight_max="150dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintHeight_max="250dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/backgrounds/scenic" />

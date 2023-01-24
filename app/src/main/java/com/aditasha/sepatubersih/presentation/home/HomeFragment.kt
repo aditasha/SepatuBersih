@@ -2,7 +2,6 @@ package com.aditasha.sepatubersih.presentation.home
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -96,7 +95,6 @@ class HomeFragment : Fragment() {
             }
 
             override fun onDataChanged() {
-                Log.d("test", articleAdapter?.itemCount.toString())
             }
 
         })
@@ -109,7 +107,6 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("test", "onResume")
         articleAdapter?.notifyDataSetChanged()
     }
 

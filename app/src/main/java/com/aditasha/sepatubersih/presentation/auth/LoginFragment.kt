@@ -2,7 +2,6 @@ package com.aditasha.sepatubersih.presentation.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -121,7 +120,6 @@ class LoginFragment : Fragment() {
                                 }
 
                                 override fun onCancelled(error: DatabaseError) {
-                                    Log.d("test", error.code.toString())
                                     if (error.code == -3) {
                                         notAdmin = true
                                         fetchCustomer(data)
@@ -138,7 +136,6 @@ class LoginFragment : Fragment() {
                                 }
 
                                 override fun onCancelled(error: DatabaseError) {
-                                    Log.d("test", error.code.toString())
                                     if (error.code == -3) {
                                         notDriver = true
                                         fetchCustomer(data)

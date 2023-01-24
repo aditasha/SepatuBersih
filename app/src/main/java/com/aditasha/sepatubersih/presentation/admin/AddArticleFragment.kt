@@ -18,6 +18,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.aditasha.sepatubersih.R
 import com.aditasha.sepatubersih.data.RealtimeDatabaseConstants
 import com.aditasha.sepatubersih.databinding.FragmentAddArticleBinding
@@ -82,6 +83,7 @@ class AddArticleFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        adminViewModel.newFormState()
         binding.toolbar.setNavigationOnClickListener { dismiss() }
 
         if (arguments != null)
@@ -94,7 +96,7 @@ class AddArticleFragment : DialogFragment() {
                 adminViewModel.articleForm.collectLatest { state ->
                     addButton.isEnabled = state.isDataValid
                     checkLink.isEnabled = state.linkError == false
-                    errorImage.isVisible = state.imageError == true
+                    errorImage.isVisible = state.imageError == true || state.imageError == null
 
                     if (state.nameError == true) {
                         name.error = getString(R.string.name_cant_empty)
@@ -183,9 +185,18 @@ class AddArticleFragment : DialogFragment() {
                 nameEditText.setText(argsArticle.name)
                 descEditText.setText(argsArticle.desc)
                 linkEditText.setText(argsArticle.link)
+
+                val circularProgressDrawable = CircularProgressDrawable(requireContext())
+                circularProgressDrawable.setColorSchemeColors(android.R.attr.colorPrimary)
+                circularProgressDrawable.strokeWidth = 5f
+                circularProgressDrawable.centerRadius = 15f
+                circularProgressDrawable.start()
+
                 GlideApp.with(this@AddArticleFragment)
                     .load(imageRef)
+//                    .placeholder(circularProgressDrawable)
                     .into(binding.image)
+
                 adminViewModel.apply {
                     checkName(argsArticle.name)
                     checkDesc(argsArticle.desc)
@@ -212,6 +223,7 @@ class AddArticleFragment : DialogFragment() {
             }
 
             addButton.setOnClickListener {
+                binding.loading.isVisible = true
                 val name = nameEditText.text.toString()
                 val desc = descEditText.text.toString()
                 val link = linkEditText.text.toString()

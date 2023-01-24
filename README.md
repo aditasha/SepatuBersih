@@ -25,10 +25,10 @@
 
   <p align="center">
     An application for Sepatu Bersih, a shoe care service company, which provide a shoe-washing pickup and delivery services with accounts for customer, driver and shopkeeper
-    <br />
     <a href="https://github.com/aditasha/SepatuBersih/issues">Report Bug</a>
     ·
     <a href="https://github.com/aditasha/SepatuBersih/issues">Request Feature</a>
+    <br />
   </p>
 </div>
 
